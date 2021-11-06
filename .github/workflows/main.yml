@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
+      - run: cd packages/aspor-react
       - run: npm install
       - run: npm run-script build
       - run: npm publish
