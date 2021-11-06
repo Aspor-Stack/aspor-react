@@ -28,7 +28,9 @@ jobs:
         working-directory: packages/aspor-react
       - run: npm run-script build
         working-directory: packages/aspor-react
-      - run: npm publish --access public
+      - run: cp package.json build/package.json
         working-directory: packages/aspor-react
+      - run: npm publish --access public
+        working-directory: packages/aspor-react/build
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
