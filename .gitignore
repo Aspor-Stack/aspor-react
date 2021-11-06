@@ -1,0 +1,57 @@
+# ---> Java
+# Compiled class file
+*.class
+
+/build
+/node_modules
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+.vs/
+.idea/
+*.iml
+eclipse.
+.settings/
+.classpath
+.project
+nbproject/
+nbactions.xml
+.idea
+mcnative-bungeecord/src/main/test
+build.xml
+bin/
+Debug/
+obj/
+*.csproj.user
+dist/
+manifest.mf
+*/src/main/lombok
+
+target/
+test/
+logs/
+.svn/
+*.zip
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+# Project exclude paths
+node_modules/
+build/
