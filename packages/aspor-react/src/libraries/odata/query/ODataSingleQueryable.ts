@@ -1,16 +1,16 @@
-import {AbstractODataBase, ODataBase} from "../ODataBase";
+import ODataBase, {AbstractODataBase} from "../ODataBase";
 import {ODataQueryUtility} from "./ODataQueryUtility";
 import {Expression} from "./expression/Expression";
 import {ExpressionOperator} from "./expression/ExpressionOperator";
 import {ProjectorType} from "./expression/proxy/ProxyFilterTypes";
 import {FieldReference} from "./expression/field/FieldReference";
 import {FieldsFor} from "./expression/field/FieldsForType";
-import {ODataQueryable} from "./ODataQueryable";
-import {ODataQuerySegments} from "./ODataQuerySegments";
+import ODataQueryable from "./ODataQueryable";
+import ODataQuerySegments from "./ODataQuerySegments";
 import {ODataExpressionVisitor} from "./expression/ODataExpressionVisitor";
-import {Tracked} from "../tracked/Tracked";
+import Tracked from "../tracked/Tracked";
 
-export class ODataSingleQueryable<Entity, UEntity = Entity> extends AbstractODataBase{
+export default class ODataSingleQueryable<Entity, UEntity = Entity> extends AbstractODataBase{
 
     protected readonly _id : any
     protected readonly _name? : string

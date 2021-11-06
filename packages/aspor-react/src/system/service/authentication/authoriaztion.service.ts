@@ -1,4 +1,4 @@
-import {AsporUser} from "./AsporUser";
+import AsporUser from "./AsporUser";
 import ServiceDefinition from "../ServiceDefinition";
 
 export const AuthenticationService = new ServiceDefinition<IAuthenticationService>("authentication-service");

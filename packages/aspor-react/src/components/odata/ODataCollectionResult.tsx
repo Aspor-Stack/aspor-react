@@ -1,5 +1,5 @@
-import {AsporComponent} from "../AsporComponent";
-import {ODataQueryable} from "../../libraries/odata/query/ODataQueryable";
+import AsporComponent from "../AsporComponent";
+import ODataQueryable from "../../libraries/odata/query/ODataQueryable";
 
 export type ODataCollectionResultProps<T> = {
     query: ODataQueryable<T>,
@@ -11,7 +11,7 @@ export type ODataCollectionResultState<T> = {
     loading: boolean
 }
 
-export class ODataCollectionResult<T> extends AsporComponent<ODataCollectionResultProps<T>, ODataCollectionResultState<T>>{
+export default class ODataCollectionResult<T> extends AsporComponent<ODataCollectionResultProps<T>, ODataCollectionResultState<T>>{
 
     constructor(props : ODataCollectionResultProps<T>) {
         super(props);

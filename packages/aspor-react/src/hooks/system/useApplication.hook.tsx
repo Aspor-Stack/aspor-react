@@ -1,6 +1,6 @@
 import { useContext} from "react";
 import {ApplicationContext} from "../../components/system/AsporApplication";
 
-export function useApplication() {
+export default function useApplication() {
     return useContext(ApplicationContext);
 }

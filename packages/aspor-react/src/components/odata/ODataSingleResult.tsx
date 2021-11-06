@@ -1,5 +1,5 @@
-import {AsporComponent} from "../AsporComponent";
-import {ODataSingleQueryable} from "../../libraries/odata/query/ODataSingleQueryable";
+import AsporComponent from "../AsporComponent";
+import ODataSingleQueryable from "../../libraries/odata/query/ODataSingleQueryable";
 
 export type ODataSingleResultProps<T> = {
     query: ODataSingleQueryable<T>,
@@ -11,7 +11,7 @@ export type ODataSingleResultState<T> = {
     loading: boolean
 }
 
-export class ODataSingleResult<T> extends AsporComponent<ODataSingleResultProps<T>, ODataSingleResultState<T>>{
+export default class ODataSingleResult<T> extends AsporComponent<ODataSingleResultProps<T>, ODataSingleResultState<T>>{
 
     constructor(props : ODataSingleResultProps<T>) {
         super(props);

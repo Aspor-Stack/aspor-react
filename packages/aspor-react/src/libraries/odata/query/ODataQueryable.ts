@@ -1,4 +1,4 @@
-import {AbstractODataBase, ODataBase} from "../ODataBase";
+import ODataBase, {AbstractODataBase} from "../ODataBase";
 import {ODataResult} from "./ODataResult";
 import {ODataQueryUtility} from "./ODataQueryUtility";
 import {ODataExpressionVisitor} from "./expression/ODataExpressionVisitor";
@@ -10,9 +10,9 @@ import {ExpressionOperator} from "./expression/ExpressionOperator";
 import {ProjectorType} from "./expression/proxy/ProxyFilterTypes";
 import {FieldReference} from "./expression/field/FieldReference";
 import {FieldsFor} from "./expression/field/FieldsForType";
-import {ODataQuerySegments} from "./ODataQuerySegments";
+import ODataQuerySegments from "./ODataQuerySegments";
 
-export class ODataQueryable<Entity, UEntity = Entity> extends AbstractODataBase{
+export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractODataBase{
 
     protected readonly _name? : string;
     public readonly _expression?: Expression

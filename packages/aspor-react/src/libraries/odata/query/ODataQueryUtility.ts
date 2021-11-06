@@ -2,7 +2,7 @@ import {EntityProxy, lambdaVariable, propertyPath, PropertyProxy, proxyPropertie
 import {ProxyPropertyPredicate} from "./expression/proxy/ProxyPropertyPredicate";
 import {Expression} from "./expression/Expression";
 import {ExpressionOperator} from "./expression/ExpressionOperator";
-import {ODataQuerySegments} from "./ODataQuerySegments";
+import ODataQuerySegments from "./ODataQuerySegments";
 
 
 class QueryUtilityImpl {
@@ -110,3 +110,4 @@ class QueryUtilityImpl {
 }
 
 export const ODataQueryUtility = new QueryUtilityImpl();
+export default ODataQueryUtility

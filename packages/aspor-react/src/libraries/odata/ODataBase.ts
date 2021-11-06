@@ -1,6 +1,6 @@
-import {ODataClient} from "./ODataClient";
+import ODataClient from "./ODataClient";
 
-export interface ODataBase {
+export default interface ODataBase {
 
     client() : ODataClient
 

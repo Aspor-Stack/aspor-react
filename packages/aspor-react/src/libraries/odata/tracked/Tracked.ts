@@ -1,7 +1,6 @@
-import {ODataBase} from "../ODataBase";
+import ODataBase from "../ODataBase";
 
-
-export class Tracked<A extends any> {
+export default class Tracked<A extends any> {
 
     private readonly _base : ODataBase
     private readonly _id: any

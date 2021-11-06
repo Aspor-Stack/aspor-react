@@ -1,6 +1,6 @@
-import {Tracked} from "./Tracked";
+import Tracked from "./Tracked";
 
-export class TrackedCollection<A extends any> {
+export default class TrackedCollection<A extends any> {
 
     private readonly _tracked : Tracked<A>[];
 

@@ -1,5 +1,5 @@
 
-export type AsporUser = {
+export default interface AsporUser {
 
     id: string,
 

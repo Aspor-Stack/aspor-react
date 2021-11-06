@@ -1,4 +1,4 @@
-import {ODataResult} from "./query/ODataResult";
+import ODataResult from "./query/ODataResult";
 import axios, {AxiosRequestConfig} from "axios";
 
 export interface AuthorizationHandler {
@@ -7,7 +7,7 @@ export interface AuthorizationHandler {
 
 }
 
-export class ODataClient {
+export default class ODataClient {
 
     private readonly _authorizationHandler? : AuthorizationHandler
 

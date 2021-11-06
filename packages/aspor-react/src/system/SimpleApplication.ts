@@ -1,9 +1,9 @@
-import {Application} from "./Application";
+import Application from "./Application";
 import ServiceDefinition from "./service/ServiceDefinition";
-import {AsporUser} from "./service/authentication/AsporUser";
+import AsporUser from "./service/authentication/AsporUser";
 import {AuthenticationService} from "./service/authentication/authoriaztion.service";
 
-export class SimpleApplication implements Application {
+export default class SimpleApplication implements Application {
 
     private readonly _subscriptions : any[] = [];
     private _services : any;

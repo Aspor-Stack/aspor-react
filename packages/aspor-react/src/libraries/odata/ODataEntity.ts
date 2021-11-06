@@ -1,7 +1,6 @@
-import {ODataSingleQueryable} from "./query/ODataSingleQueryable";
+import ODataSingleQueryable from "./query/ODataSingleQueryable";
 
-
-export class ODataEntity<Entity> extends ODataSingleQueryable<Entity> {
+export default class ODataEntity<Entity> extends ODataSingleQueryable<Entity> {
 
     id(){
         return this._id;

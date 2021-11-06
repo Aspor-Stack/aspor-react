@@ -1,7 +1,7 @@
-import {AsporUser} from "./service/authentication/AsporUser";
+import AsporUser from "./service/authentication/AsporUser";
 import ServiceDefinition from "./service/ServiceDefinition";
 
-export interface Application {
+export default interface Application {
 
     initialize(services: any) : void
 

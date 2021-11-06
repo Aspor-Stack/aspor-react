@@ -4,9 +4,9 @@ import { Expression } from "./Expression";
 import { Literal } from "./Literal";
 import { ExpressionOperator } from "./ExpressionOperator";
 import { ODataType } from "../../ODataType";
-import {ODataQueryable} from "../ODataQueryable";
+import ODataQueryable from "../ODataQueryable";
 import {ODataQueryUtility} from "../ODataQueryUtility";
-import {ODataQuerySegments} from "../ODataQuerySegments";
+import ODataQuerySegments from "../ODataQuerySegments";
 
 export class ODataExpressionVisitorImpl {
 

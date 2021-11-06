@@ -7,3 +7,5 @@ export const enum ODataType {
     /**Represents a GUID */
     Guid = "guid",
 }
+
+export default ODataType

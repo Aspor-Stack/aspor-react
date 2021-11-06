@@ -1,5 +1,5 @@
 import React from "react";
-import {Application} from "../../system/Application";
+import Application from "../../system/Application";
 
 //@ts-ignore
 export const ApplicationContext = React.createContext<Application>(null);
@@ -14,7 +14,7 @@ export interface AsporApplicationState {
 }
 
 
-export class AsporApplication extends React.Component<AsporApplicationProps,AsporApplicationState> {
+export default class AsporApplication extends React.Component<AsporApplicationProps,AsporApplicationState> {
 
     render(){
         return <ApplicationContext.Provider value={this.props.application}>

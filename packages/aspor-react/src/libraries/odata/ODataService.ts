@@ -1,8 +1,8 @@
-import {ODataBase} from "./ODataBase";
-import {ODataClient} from "./ODataClient";
+import ODataBase from "./ODataBase";
+import ODataClient from "./ODataClient";
 
 
-export class ODataService implements ODataBase{
+export default class ODataService implements ODataBase{
 
     private readonly _client : ODataClient
     private readonly _base : string

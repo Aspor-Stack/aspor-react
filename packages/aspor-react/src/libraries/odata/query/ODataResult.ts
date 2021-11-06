@@ -6,3 +6,5 @@ export type ODataResult<Entity> = {
     count : number
 
 }
+
+export default ODataResult

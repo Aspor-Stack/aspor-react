@@ -1,5 +1,5 @@
 
-export interface ODataQuerySegments {
+export default interface ODataQuerySegments {
     select?: string[];
     orderBy?: string[];
     skip?: number;

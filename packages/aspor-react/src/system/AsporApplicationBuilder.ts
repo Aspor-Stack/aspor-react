@@ -1,8 +1,8 @@
-import {Application} from "./Application";
+import Application from "./Application";
 import ServiceDefinition from "./service/ServiceDefinition";
-import {SimpleApplication} from "./SimpleApplication";
+import SimpleApplication from "./SimpleApplication";
 
-export class AsporApplicationBuilder<T extends Application = SimpleApplication> {
+export default class AsporApplicationBuilder<T extends Application = SimpleApplication> {
 
     private readonly _type?: new ()=>T
     private readonly _services : any;
