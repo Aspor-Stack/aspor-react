@@ -24,9 +24,11 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: cd packages/aspor-react
       - run: npm install
+        working-directory: packages/aspor-react
       - run: npm run-script build
+        working-directory: packages/aspor-react
       - run: npm publish
+        working-directory: packages/aspor-react
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
