@@ -16,6 +16,7 @@ export default interface Application {
     service<S>(type: ServiceDefinition<S>) : S
     service<S>(type: new () => S) : S
     service<S>(type: string) : S
+    service<S>(type: any) : S
 
     reload() : void
 

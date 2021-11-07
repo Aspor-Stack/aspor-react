@@ -1,10 +1,10 @@
 import {Board, Project, User} from "./entities";
-import {ODataSet} from "aspor-react/src/libraries/odata/ODataSet";
-import {ODataQueryable} from "aspor-react/src/libraries/odata/query/ODataQueryable";
-import {ODataCollection} from "aspor-react/src/libraries/odata/ODataCollection";
-import {ODataEntity} from "aspor-react/src/libraries/odata/ODataEntity";
-import {ODataService} from "aspor-react/src/libraries/odata/ODataService";
-import {ODataClient} from "aspor-react/src/libraries/odata/ODataClient";
+import ODataSet from "aspor-react/src/libraries/odata/ODataSet";
+import ODataQueryable from "aspor-react/src/libraries/odata/query/ODataQueryable";
+import ODataCollection from "aspor-react/src/libraries/odata/ODataCollection";
+import ODataEntity from "aspor-react/src/libraries/odata/ODataEntity";
+import ODataService from "aspor-react/src/libraries/odata/ODataService";
+import ODataClient from "aspor-react/src/libraries/odata/ODataClient";
 
 export class ProjectSet extends ODataSet<Project> {
 
