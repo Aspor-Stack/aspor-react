@@ -8,6 +8,10 @@ export interface IAuthenticationService {
 
     getUser() : AsporUser,
 
+    getAuthorizationToken(),
+
+    getAuthorizationHeader(),
+
     isAuthenticated() : boolean
 
     login(silent? : boolean) : Promise<AsporUser>;
