@@ -40,6 +40,36 @@ export default class Application {
         return service;
     }
 
+    service2<S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S)): S {
+        let name;
+        if(typeof type === "string"){
+            name = type;
+        }else if(typeof type === "function"){
+            name = type.name;
+        }else if(type instanceof ServiceDefinition) {
+            name = type.name;
+        }else{
+            throw new Error("Invalid service type");
+        }
+        let service = this._services[name];
+        if(service === null) throw new Error("Service "+name+" is not available");
+        return service;
+    }
+
+    service3<S>(type: (new (app : Application)=>S)): S {
+        let name;
+        if(typeof type === "string"){
+            name = type;
+        }else if(typeof type === "function"){
+            name = type.name;
+        }else{
+            throw new Error("Invalid service type");
+        }
+        let service = this._services[name];
+        if(service === null) throw new Error("Service "+name+" is not available");
+        return service;
+    }
+
     registerService<S, I extends S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string | S, implType? : (new ()=>S) | (new (app : Application)=>S) | I): void {
         let name = null;
         let instance = null;
@@ -50,7 +80,7 @@ export default class Application {
         }else if(type instanceof Function){
             name = type.constructor.name
             if(!implType){
-                if(type.constructor.arguments.length > 0){
+                if(implType.constructor.arguments.length > 0){
                     instance = Reflect.construct(type,[this]);
                 }else{
                     instance = Reflect.construct(type,[]);
