@@ -9,6 +9,8 @@ export { default as ServiceDefinition } from './system/service/ServiceDefinition
 
 export { default as AuthenticationService, IAuthenticationService } from './system/service/authentication/authentication.service';
 
+export { default as AsporUser } from './system/service/authentication/AsporUser';
+
 /* Components */
 
 export { default as AsporComponent } from './components/AsporComponent';
