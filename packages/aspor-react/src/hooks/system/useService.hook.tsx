@@ -1,15 +1,8 @@
 import {useContext} from "react";
 import {ApplicationContext} from "../../components/system/AsporApplication";
 import ServiceDefinition from "../../system/service/ServiceDefinition";
+import Application from "../../system/Application";
 
-export function useService<S>(type: new () => S) : S {
-    return useContext(ApplicationContext).service(type);
-}
-
-export function useNamedService<S>(type: string) : S {
-    return useContext(ApplicationContext).service(type);
-}
-
-export function useDefinedService<S>(type: ServiceDefinition<S>) : S {
+export default function useService<S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string) : S {
     return useContext(ApplicationContext).service(type);
 }

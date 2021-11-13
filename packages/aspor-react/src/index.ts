@@ -3,13 +3,11 @@
 
 export { default as Application } from './system/Application';
 
-export { default as SimpleApplication } from './system/SimpleApplication';
-
-export { default as AsporApplicationBuilder } from './system/AsporApplicationBuilder';
+export { default as AsporApplicationBuilder } from './system/Application';
 
 export { default as ServiceDefinition } from './system/service/ServiceDefinition';
 
-export { default as IAuthenticationService } from './system/service/authentication/authoriaztion.service';
+export { default as IAuthenticationService } from './system/service/authentication/authentication.service';
 
 /* Components */
 
@@ -31,7 +29,7 @@ export { default as useApplication } from './hooks/system/useApplication.hook';
 
 export { default as useUser } from './hooks/system/useUser.hook';
 
-export { useService, useDefinedService, useNamedService } from './hooks/system/useService.hook';
+export { default as useService } from './hooks/system/useService.hook';
 
 /* Libraries OData */
 

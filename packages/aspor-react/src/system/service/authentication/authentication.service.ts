@@ -2,8 +2,9 @@ import AsporUser from "./AsporUser";
 import ServiceDefinition from "../ServiceDefinition";
 
 export const AuthenticationService = new ServiceDefinition<IAuthenticationService>("authentication-service");
+export default AuthenticationService
 
-export default interface IAuthenticationService {
+export interface IAuthenticationService {
 
     getUser() : AsporUser,
 

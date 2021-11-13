@@ -1,7 +1,6 @@
 import {ODataTestService} from "./ODataTestService";
-import {Application} from "../system/Application";
-import {ODataQueryable} from "../libraries/odata/query/ODataQueryable";
 import {Board} from "./entities";
+import {ODataQueryable} from "../../aspor-react/build";
 
 let service : ODataTestService = new ODataTestService();
 

@@ -1,8 +1,8 @@
 import React from "react";
 import {ODataTestService} from "./ODataTestService";
 import {Project} from "./entities";
-import {ODataSingleResult} from "aspor-react/src/components/odata/ODataSingleResult";
-import {ServiceProvider} from "aspor-react/src/components/system/ServiceProvider";
+import ODataSingleResult from "aspor-react/src/components/odata/ODataSingleResult";
+import ServiceProvider from "aspor-react/src/components/system/ServiceProvider";
 
 export class TestApp extends React.Component<any, any>{
 

@@ -4,18 +4,14 @@ import {TestApp} from "./TestApp";
 import {ODataTestService} from "./ODataTestService";
 import {TestServiceImpl} from "./services/test.service.impl";
 import {TestService} from "./services/test.service";
-import {AsporApplicationBuilder} from "aspor-react/src/system/AsporApplicationBuilder";
-import {Application} from "aspor-react/src";
-import {AsporApplication} from "aspor-react/src/components/system/AsporApplication";
+import {Application, AsporApplication} from "../../aspor-react/src";
 
-let builder = AsporApplicationBuilder.new();
+let application = Application.new();
 
-builder.registerService(new ODataTestService());
-builder.registerService(ODataTestService);
-builder.registerService(TestService,TestServiceImpl)
-builder.registerService(TestService,new TestServiceImpl())
-
-let application : Application = builder.build();
+application.registerService(new ODataTestService());
+application.registerService(ODataTestService);
+application.registerService(TestService,TestServiceImpl)
+application.registerService(TestService,new TestServiceImpl())
 
 ReactDOM.render(
     <React.StrictMode>
