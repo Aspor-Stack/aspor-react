@@ -80,7 +80,7 @@ export default class Application {
         }else if(type instanceof Function){
             name = type.constructor.name
             if(!implType){
-                if(implType.constructor.arguments.length > 0){
+                if(type.constructor && type.constructor.arguments.length > 0){
                     instance = Reflect.construct(type,[this]);
                 }else{
                     instance = Reflect.construct(type,[]);

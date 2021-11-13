@@ -7,7 +7,7 @@ export { default as AsporApplicationBuilder } from './system/Application';
 
 export { default as ServiceDefinition } from './system/service/ServiceDefinition';
 
-export { default as IAuthenticationService } from './system/service/authentication/authentication.service';
+export { default as AuthenticationService, IAuthenticationService } from './system/service/authentication/authentication.service';
 
 /* Components */
 
