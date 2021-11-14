@@ -3,7 +3,7 @@ import ODataQueryable from "../../libraries/odata/query/ODataQueryable";
 
 export type ODataCollectionResultProps<T> = {
     query: ODataQueryable<T>,
-    render: (result: T[] | undefined,loading: boolean)=>any
+    render: (result: T[] | undefined,loading: boolean, reload: ()=>void)=>any
 }
 
 export type ODataCollectionResultState<T> = {
@@ -42,8 +42,12 @@ export default class ODataCollectionResult<T> extends AsporComponent<ODataCollec
         }
     }
 
+    reload(){
+        this.load(this.props)
+    }
+
     render() {
-        return this.props.render(this.state.result,this.state.loading);
+        return this.props.render(this.state.result,this.state.loading,this.reload);
     }
 
 }

@@ -3,7 +3,7 @@ import ODataSingleQueryable from "../../libraries/odata/query/ODataSingleQueryab
 
 export type ODataSingleResultProps<T> = {
     query: ODataSingleQueryable<T>,
-    render: (result: T | undefined,loading: boolean)=>any
+    render: (result: T | undefined,loading: boolean, reload: ()=>void)=>any
 }
 
 export type ODataSingleResultState<T> = {
@@ -42,8 +42,12 @@ export default class ODataSingleResult<T> extends AsporComponent<ODataSingleResu
         }
     }
 
+    reload(){
+        this.load(this.props)
+    }
+
     render() {
-        return this.props.render(this.state.result,this.state.loading);
+        return this.props.render(this.state.result,this.state.loading,this.reload);
     }
 
 }
