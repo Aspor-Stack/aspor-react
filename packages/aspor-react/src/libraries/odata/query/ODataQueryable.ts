@@ -111,6 +111,15 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
         return this._base.client().getMany(this.url());
     }
 
+    getManyWithCount() : Promise<ODataResult<UEntity>> {
+        if(this._expression){
+            let query : ODataQuerySegments = {count: true}
+            ODataExpressionVisitor.visit(query,this._expression);
+            return this._base.client().getMany(this.url()+ODataQueryUtility.compileQuery(query));
+        }
+        return this._base.client().getMany(this.url()+"?$count=true");
+    }
+
     getFirst() : Promise<UEntity> {
         if(this._expression){
             let query : ODataQuerySegments = {}
