@@ -87,7 +87,7 @@ class QueryUtilityImpl {
         let query = "?";
         if(segments.filter) query += "$filter="+segments.filter+"&"
         if(segments.expand) query += "$expand="+segments.expand+"&"
-        if(segments.orderBy) query += "orderBy="+segments.orderBy.join(",")+"&"
+        if(segments.orderBy) query += "$orderBy="+segments.orderBy.join(",")+"&"
         if(segments.select) query += "$select="+segments.select.join(",")+"&"
         if(segments.top) query += "$top="+segments.top+"&"
         if(segments.skip) query += "$skip="+segments.skip+"&"
@@ -99,7 +99,7 @@ class QueryUtilityImpl {
         let query = "";
         if(segments.filter) query += "$filter="+segments.filter+";"
         if(segments.expand) query += "$expand="+segments.expand+";"
-        if(segments.orderBy) query += "orderBy="+segments.orderBy.join(",")+";"
+        if(segments.orderBy) query += "$orderBy="+segments.orderBy.join(",")+";"
         if(segments.select) query += "$select="+segments.select.join(",")+";"
         if(segments.top) query += "$top="+segments.top+";"
         if(segments.skip) query += "$skip="+segments.skip+";"
