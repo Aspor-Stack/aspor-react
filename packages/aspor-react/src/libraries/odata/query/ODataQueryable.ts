@@ -125,14 +125,21 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
             let query : ODataQuerySegments = {}
             ODataExpressionVisitor.visit(query,this._expression);
             query.top = 1;
-            return this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query));
+            return new Promise((resolve,reject)=>{
+                this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query))
+                    .then((result : any)=>{
+                        if(result.value && result.value.length > 0) return result.value[0];
+                        else reject();
+                    }).catch(reject)
+            });
+        }else{
+            return new Promise((resolve,reject)=>{
+                this._base.client().get(this.url()+"?$top=1")
+                    .then((result : any)=>{
+                        if(result.value && result.value.length > 0) return result.value[0];
+                        else reject();
+                    }).catch(reject)
+            });
         }
-        return new Promise((resolve,reject)=>{
-            this._base.client().get(this.url()+"?$top=1")
-                .then((result : any)=>{
-                    if(result.value && result.value.length > 0) return result.value[0];
-                    else reject();
-                }).catch(reject)
-        });
     }
 }
