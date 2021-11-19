@@ -3,6 +3,12 @@ export default interface AsporUser {
 
     id: string,
 
-    name: string
+    username: string,
+
+    email: string
+
+    discriminator: string,
+
+    avatarUrl: string
 
 }
