@@ -107,6 +107,43 @@ class QueryUtilityImpl {
         return query;
     }
 
+    compileQueryParameters(parameters : any){
+        let result = "";
+        if(parameters && Object.keys(parameters).length > 0){
+            result = "("
+
+            for(let key in Object.keys(parameters)){
+                result += key+"="+this.compileQueryParameterValue(parameters[key])
+            }
+            result = result.substr(0,result.length)+")"
+        }
+        return result;
+    }
+
+    compileQueryParameterValue(value){
+        if(value) {
+            if(Array.isArray(value)){
+                let result = "["
+                let first = true;
+                for(let entry of result){
+                    if(first) first = false;
+                    else result += ","
+                    result += this.compileQueryParameterValue(entry);
+                }
+                result += "]"
+                return result;
+            }else{
+                if (typeof value === 'object') {
+                    value = value.toString();
+                }
+                if (typeof value === 'string') return "'" + value + "'";
+                else return value;
+            }
+        }else{
+            return "null"
+        }
+    }
+
 }
 
 export const ODataQueryUtility = new QueryUtilityImpl();

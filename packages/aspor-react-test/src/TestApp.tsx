@@ -22,16 +22,3 @@ export class TestApp extends React.Component<any, any>{
     }
 
 }
-
-/*
-  service.projects().select(p => {
-                    return {name: p.name}
-                }).filter(p => p.name.$equals("DKConnect"))
-                    .expandMany(p => p.boards,q => q.select((f : any) => f.id))
-                    .getMany().then((result)=>{
-                    console.log(result.rows);
-                });
-
-                console.log(service);
-                return <p>Test</p>
- */
