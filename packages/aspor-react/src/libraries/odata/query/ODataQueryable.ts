@@ -128,7 +128,7 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
             return new Promise((resolve,reject)=>{
                 this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query))
                     .then((result : any)=>{
-                        if(result.value && result.value.length > 0) return result.value[0];
+                        if(result.value && result.value.length > 0) resolve(result.value[0]);
                         else reject();
                     }).catch(reject)
             });
@@ -136,7 +136,7 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
             return new Promise((resolve,reject)=>{
                 this._base.client().get(this.url()+"?$top=1")
                     .then((result : any)=>{
-                        if(result.value && result.value.length > 0) return result.value[0];
+                        if(result.value && result.value.length > 0) result(result.value[0]);
                         else reject();
                     }).catch(reject)
             });

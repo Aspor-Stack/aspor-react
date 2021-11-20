@@ -8,7 +8,7 @@ export default class ODataSet<Entity> extends ODataCollection<Entity> {
         return this._base.client().post<Entity>(this.url(),entity);
     }
 
-    action<T>(name : string, data: any) : Promise<T>{
+    action<T>(name : string, data?: any) : Promise<T>{
         return this._base.client().post<T>(this.url()+"/"+name,data);
     }
 

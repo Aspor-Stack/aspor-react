@@ -20,7 +20,7 @@ export default class ODataEntity<Entity> extends ODataSingleQueryable<Entity> {
         return this._base.client().delete(this.url());
     }
 
-    action<T>(name : string, data: any) : Promise<T>{
+    action<T>(name : string, data?: any) : Promise<T>{
         return this._base.client().post<T>(this.url()+"/"+name,data);
     }
 
