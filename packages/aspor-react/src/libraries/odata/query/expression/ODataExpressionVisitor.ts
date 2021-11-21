@@ -53,7 +53,6 @@ export class ODataExpressionVisitorImpl {
             this.visit(innerQuery,expandQuery._expression);
             query.expand.push(expand+"("+ODataQueryUtility.compileInnerQuery(innerQuery)+")")
         }
-        query.expand.push(expand)
     }
 
     expandAllVisitor(query: ODataQuerySegments) {

@@ -24,8 +24,10 @@ export default class ODataSingleQueryable<Entity, UEntity = Entity> extends Abst
     }
 
     url() : string {
-        if(this._name) return this._base.url()+"/"+this._name+"/"+this._id;
-        else return this._base.url()+"/"+this._id;
+        let url = this._base.url();
+        if(this._name) url += "/"+this._name;
+        if(this._id) url += "/"+this._id;
+        return url;
     }
 
     public select<U extends FieldsFor<Entity>>(...fields: U[]): ODataSingleQueryable<Entity, U>;
@@ -38,11 +40,11 @@ export default class ODataSingleQueryable<Entity, UEntity = Entity> extends Abst
             const proxy = ODataQueryUtility.createProxiedEntity<Entity>();
             firstArg(proxy as unknown as Entity);
             const expression = new Expression(ExpressionOperator.Select, [firstArg, ...ODataQueryUtility.getUsedPropertyPaths(proxy)], this._expression);
-            return new ODataSingleQueryable<Entity,U>(this,this._id,this._name,expression);
+            return new ODataSingleQueryable<Entity,U>(this,undefined,undefined,expression);
         }
 
         const expression = new Expression(ExpressionOperator.Select, (args as FieldsFor<Entity>[]).map(v => new FieldReference<Entity>(v)), this._expression);
-        return new ODataSingleQueryable<Entity,U>(this,this._id,this._name,expression);
+        return new ODataSingleQueryable<Entity,U>(this,undefined,undefined,expression);
     }
 
     public expandMany<K>(projector: (proxy: Entity) => K[],subQuery? : (query : ODataQueryable<K>)=>void): ODataSingleQueryable<Entity, UEntity> {
@@ -52,7 +54,7 @@ export default class ODataSingleQueryable<Entity, UEntity = Entity> extends Abst
         const proxy = ODataQueryUtility.createProxiedEntity<Entity>();
         projector(proxy as unknown as Entity);
         const expression = new Expression(ExpressionOperator.Expand, [query,[...ODataQueryUtility.getUsedPropertyPaths(proxy)]], this._expression);
-        return new ODataSingleQueryable<Entity,UEntity>(this,this._id,this._name,expression);
+        return new ODataSingleQueryable<Entity,UEntity>(this,undefined,undefined,expression);
     }
 
     public expand<K>(projector: (proxy: Entity) => K,subQuery? : (query : ODataQueryable<K>)=>void): ODataSingleQueryable<Entity, UEntity> {
@@ -62,12 +64,12 @@ export default class ODataSingleQueryable<Entity, UEntity = Entity> extends Abst
         const proxy = ODataQueryUtility.createProxiedEntity<Entity>();
         projector(proxy as unknown as Entity);
         const expression = new Expression(ExpressionOperator.Expand, [query,[...ODataQueryUtility.getUsedPropertyPaths(proxy)]], this._expression);
-        return new ODataSingleQueryable<Entity,UEntity>(this,this._id,this._name,expression);
+        return new ODataSingleQueryable<Entity,UEntity>(this,undefined,undefined,expression);
     }
 
     public expandAll() {
         const expression = new Expression(ExpressionOperator.ExpandAll, [], this._expression);
-        return new ODataSingleQueryable<Entity,UEntity>(this,this._id,this._name,expression);
+        return new ODataSingleQueryable<Entity,UEntity>(this,undefined,undefined,expression);
     }
 
     get() : Promise<Entity> {

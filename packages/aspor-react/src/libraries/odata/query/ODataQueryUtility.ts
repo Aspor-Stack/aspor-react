@@ -86,7 +86,7 @@ class QueryUtilityImpl {
     compileQuery(segments : ODataQuerySegments){
         let query = "?";
         if(segments.filter) query += "$filter="+segments.filter+"&"
-        if(segments.expand) query += "$expand="+segments.expand+"&"
+        if(segments.expand) query += "$expand="+segments.expand.join(",")+"&"
         if(segments.orderBy) query += "$orderBy="+segments.orderBy.join(",")+"&"
         if(segments.select) query += "$select="+segments.select.join(",")+"&"
         if(segments.top) query += "$top="+segments.top+"&"
@@ -98,7 +98,7 @@ class QueryUtilityImpl {
     compileInnerQuery(segments : ODataQuerySegments){
         let query = "";
         if(segments.filter) query += "$filter="+segments.filter+";"
-        if(segments.expand) query += "$expand="+segments.expand+";"
+        if(segments.expand) query += "$expand="+segments.expand.join(",")+";"
         if(segments.orderBy) query += "$orderBy="+segments.orderBy.join(",")+";"
         if(segments.select) query += "$select="+segments.select.join(",")+";"
         if(segments.top) query += "$top="+segments.top+";"
