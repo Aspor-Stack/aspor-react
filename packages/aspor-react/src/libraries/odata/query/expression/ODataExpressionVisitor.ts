@@ -52,6 +52,8 @@ export class ODataExpressionVisitorImpl {
             let innerQuery : ODataQuerySegments = {}
             this.visit(innerQuery,expandQuery._expression);
             query.expand.push(expand+"("+ODataQueryUtility.compileInnerQuery(innerQuery)+")")
+        }else{
+            query.expand.push(expand)
         }
     }
 
