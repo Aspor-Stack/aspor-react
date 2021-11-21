@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-
+    "@aspor/aspor-react": "^0.1.17"
   },
   "scripts": {
     "start": "cd packages/aspor-react-test && npm run-script start",

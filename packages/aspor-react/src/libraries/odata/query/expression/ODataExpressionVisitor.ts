@@ -7,6 +7,7 @@ import { ODataType } from "../../ODataType";
 import ODataQueryable from "../ODataQueryable";
 import {ODataQueryUtility} from "../ODataQueryUtility";
 import ODataQuerySegments from "../ODataQuerySegments";
+import {Guid} from "../../Guid";
 
 export class ODataExpressionVisitorImpl {
 
@@ -192,6 +193,10 @@ export class ODataExpressionVisitorImpl {
                 return value.toString();
         }
 
+        if (value === null) return "null";
+        if (value instanceof Date) return value.toISOString();
+        if (value instanceof Guid) return value.toString();
+
         switch (typeof value) {
             case "string":
                 return `'${value}'`;
@@ -210,11 +215,6 @@ export class ODataExpressionVisitorImpl {
             default:
                 throw new Error(`Unhandled primitive type: ${value}`);
         }
-
-        if (value === null)
-            return "null";
-        if (value instanceof Date)
-            return value.toISOString();
 
         return value.toString();
     }
