@@ -93,9 +93,8 @@ export class ODataExpressionVisitorImpl {
             filter = ['(', ...filter, ')'];
         }
 
-        if (!query.filter) query.filter = "";
-
-        query.filter += filter.join(' ');
+        if (query.filter) query.filter = filter.join(' ');
+        else query.filter += " and "+ filter.join(' ')
     }
 
     private translatePredicateExpression(expression: Expression): string[] {

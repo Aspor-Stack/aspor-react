@@ -1,6 +1,7 @@
 import type { EntityProxy, PropertyProxy } from "./ProxyTypes";
 import {BooleanPredicateBuilder} from "../BooleanPredicateBuilder";
 import {FilterAccessoryFunctions} from "../FilterAccessoryFunctions";
+import {Guid} from "../../../Guid";
 
 export const resolveQuery = Symbol();
 export const createProxiedEntity = Symbol();
@@ -22,9 +23,9 @@ export type ProxyFilterMethods<T> =
 export type PredicateArgument<T> = T | PropertyProxy<T> | null | undefined;
 
 export interface EqualityProxyFieldPredicate<T> {
-    equals(value: PredicateArgument<T>): BooleanPredicateBuilder<T>;
-    notEquals(value: PredicateArgument<T>): BooleanPredicateBuilder<T>;
-    in(value: ArrayLike<PredicateArgument<T>> | Iterable<PredicateArgument<T>>): BooleanPredicateBuilder<T>;
+    equals(value: PredicateArgument<T> | PredicateArgument<Guid>): BooleanPredicateBuilder<T>;
+    notEquals(value: PredicateArgument<T> | PredicateArgument<Guid>): BooleanPredicateBuilder<T>;
+    in(value: ArrayLike<PredicateArgument<T>> | Iterable<PredicateArgument<T>> | ArrayLike<PredicateArgument<Guid>> | Iterable<PredicateArgument<Guid>>): BooleanPredicateBuilder<T>;
 }
 
 export interface InequalityProxyFieldPredicate<T> {
