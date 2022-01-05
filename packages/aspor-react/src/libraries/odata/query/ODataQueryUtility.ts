@@ -3,6 +3,7 @@ import {ProxyPropertyPredicate} from "./expression/proxy/ProxyPropertyPredicate"
 import {Expression} from "./expression/Expression";
 import {ExpressionOperator} from "./expression/ExpressionOperator";
 import ODataQuerySegments from "./ODataQuerySegments";
+import {Guid} from "../Guid";
 
 
 class QueryUtilityImpl {
@@ -113,9 +114,9 @@ class QueryUtilityImpl {
             result = "("
 
             for(let key of Object.keys(parameters)){
-                result += key+"="+this.compileQueryParameterValue(parameters[key])
+                result += key+"="+this.compileQueryParameterValue(parameters[key])+","
             }
-            result = result.substr(0,result.length)+")"
+            result = result.substr(0,result.length-1)+")"
         }
         return result;
     }
@@ -133,11 +134,15 @@ class QueryUtilityImpl {
                 result += "]"
                 return result;
             }else{
-                if (typeof value === 'object') {
-                    value = value.toString();
+                if(value instanceof Guid){
+                    return value.toString();
+                }else if (typeof value === 'object') {
+                    return "'" + value.toString() + "'";
+                }else  if (typeof value === 'string'){
+                    return "'" + value + "'";
+                } else{
+                    return value;
                 }
-                if (typeof value === 'string') return "'" + value + "'";
-                else return value;
             }
         }else{
             return "null"
