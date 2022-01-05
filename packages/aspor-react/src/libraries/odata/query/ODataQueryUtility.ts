@@ -112,7 +112,7 @@ class QueryUtilityImpl {
         if(parameters && Object.keys(parameters).length > 0){
             result = "("
 
-            for(let key in Object.keys(parameters)){
+            for(let key of Object.keys(parameters)){
                 result += key+"="+this.compileQueryParameterValue(parameters[key])
             }
             result = result.substr(0,result.length)+")"
