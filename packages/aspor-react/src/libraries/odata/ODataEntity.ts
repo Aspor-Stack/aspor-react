@@ -25,11 +25,11 @@ export default class ODataEntity<Entity> extends ODataSingleQueryable<Entity> {
     }
 
     function<T>(name : string, parameters?: any) : Promise<T>{
-        return this._base.client().get<T>(this.url()+"/"+name+ODataQueryUtility.compileQueryParameterValue(parameters));
+        return this._base.client().get<T>(this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters));
     }
 
     collectionFunction<T>(name : string, parameters?: any) : ODataQueryable<T> {
-        let url = name+ODataQueryUtility.compileQueryParameterValue(parameters);
+        let url = name+ODataQueryUtility.compileQueryParameters(parameters);
         return new ODataQueryable(this,url)
     }
 }
