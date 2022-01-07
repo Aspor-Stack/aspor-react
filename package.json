@@ -1,10 +1,8 @@
 {
   "name": "aspor-react-base",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
-  "dependencies": {
-    "@aspor/aspor-react": "^0.1.17"
-  },
+  "dependencies": {},
   "scripts": {
     "start": "cd packages/aspor-react-test && npm run-script start",
     "build": "cd packages/aspor-react && npm run-script build"
