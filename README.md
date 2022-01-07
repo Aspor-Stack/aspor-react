@@ -9,7 +9,7 @@ Aspor-Stack | React client
 
 ---
 [![License](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/Aspor-Stack/aspor/blob/master/LICENSE)
-[![NPM Publish](https://github.com/Aspor-Stack/aspor-react/actions/workflows/main.yml/badge.svg)](https://github.com/Aspor-Stack/aspor-react/actions/workflows/main.yml)
+[![NPM Publish](https://github.com/Aspor-Stack/aspor-react/actions/workflows/publish-npm.yml/badge.svg)](https://github.com/Aspor-Stack/aspor-react/actions/workflows/publish-npm.yml)
 [![Documentation](https://img.shields.io/badge/-Documentation-blueviolet)](https://aspor-stack.github.io/aspor-docs/docs/introduction)
 
 
