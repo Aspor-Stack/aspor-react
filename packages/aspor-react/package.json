@@ -1,9 +1,21 @@
 {
   "name": "@aspor/aspor-react",
-  "version": "0.1.23",
+  "version": "1.0.0",
   "private": false,
   "author": "Davide Wietlisbach",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aspor-Stack/aspor-react"
+  },
+  "bugs": {
+    "url": "https://github.com/Aspor-Stack/aspor-react/issues"
+  },
+  "homepage": "https://aspor-stack.github.io/aspor-docs/docs/introduction/",
+  "keywords": [
+    "react",
+    "react-odata"
+  ],
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
