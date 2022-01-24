@@ -29,7 +29,7 @@ export default class Application {
         if(typeof type === "string"){
             name = type;
         }else if(typeof type === "function"){
-            name = type.name;
+            name = type.toString();
         }else if(type instanceof ServiceDefinition) {
             name = type.name;
         }else{
@@ -41,14 +41,14 @@ export default class Application {
     }
 
     registerService<S, I extends S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string | S, implType? : (new ()=>S) | (new (app : Application)=>S) | I): void {
-        let name = null;
+        let name;
         let instance = null;
 
         if(type instanceof ServiceDefinition){
             name = type.name;
             if(!implType) throw new Error("Service definition requires a service implementation");
         }else if(type instanceof Function){
-            name = type.name
+            name = type.toString()
             if(!implType){
                 if(type.length > 0){
                     instance = Reflect.construct(type,[this]);
@@ -60,7 +60,7 @@ export default class Application {
             name = type;
             if(!implType) throw new Error("Service definition requires a service implementation");
         }else{
-            name = type.constructor.name;
+            name = type.constructor.toString();
             instance = type;
         }
 
