@@ -11,7 +11,7 @@ export default function useSingleResult<T>(query: ODataSingleQueryable<T>) : { l
             .then((result)=>setResult(result))
             .catch((error)=>setError(error))
             .finally(()=>setLoading(false))
-    }, [loading,result,error]);
+    }, [query]);
 
     return {loading, result, error}
 }

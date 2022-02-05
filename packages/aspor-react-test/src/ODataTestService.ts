@@ -5,7 +5,6 @@ import ODataCollection from "aspor-react/src/libraries/odata/ODataCollection";
 import ODataEntity from "aspor-react/src/libraries/odata/ODataEntity";
 import ODataService from "aspor-react/src/libraries/odata/ODataService";
 import ODataClient from "aspor-react/src/libraries/odata/ODataClient";
-import {Application} from "../../aspor-react/src";
 
 export class ProjectSet extends ODataSet<Project> {
 

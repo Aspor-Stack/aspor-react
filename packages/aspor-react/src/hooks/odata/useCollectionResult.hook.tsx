@@ -15,7 +15,7 @@ export default function useCollectionResult<T>(query: ODataQueryable<T>, withCou
             })
             .catch((error)=>setError(error))
             .finally(()=>setLoading(false))
-    }, [loading,result,count,error]);
+    }, [query,withCount]);
 
     return {loading, result, count, error}
 }

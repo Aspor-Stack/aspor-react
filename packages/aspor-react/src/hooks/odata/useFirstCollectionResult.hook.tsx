@@ -11,7 +11,7 @@ export default function useFirstCollectionResult<T>(query: ODataQueryable<T>) : 
             .then((result)=> setResult(result))
             .catch((error)=>setError(error))
             .finally(()=>setLoading(false))
-    }, [loading,result,error]);
+    }, [query]);
 
     return {loading, result, error}
 }
