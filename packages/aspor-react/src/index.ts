@@ -33,6 +33,12 @@ export { default as useUser } from './hooks/system/useUser.hook';
 
 export { default as useService } from './hooks/system/useService.hook';
 
+export { default as useCollectionResult } from './hooks/odata/useCollectionResult.hook';
+
+export { default as useFirstCollectionResult } from './hooks/odata/useFirstCollectionResult.hook';
+
+export { default as useSingleResult } from './hooks/odata/useSingleResult.hook';
+
 /* Libraries OData */
 
 export { default as ODataType } from './libraries/odata/ODataType';
