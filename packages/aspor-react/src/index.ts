@@ -39,6 +39,12 @@ export { default as useFirstCollectionResult } from './hooks/odata/useFirstColle
 
 export { default as useSingleResult } from './hooks/odata/useSingleResult.hook';
 
+export { default as useOSCollectionResult } from './hooks/odata/service/useOSCollectionResult.hook';
+
+export { default as useOSFirstCollectionResult } from './hooks/odata/service/useOSFirstCollectionResult.hook';
+
+export { default as useOSSingleResult } from './hooks/odata/service/useOSSingleResult.hook';
+
 /* Libraries OData */
 
 export { default as ODataType } from './libraries/odata/ODataType';
