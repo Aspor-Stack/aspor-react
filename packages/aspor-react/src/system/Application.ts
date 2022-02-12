@@ -24,7 +24,7 @@ export default class Application {
         this._ready = ready;
     }
 
-    service<S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string): S {
+    service<S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string | Function): S {
         let name;
         if(typeof type === "string"){
             name = type;
@@ -79,6 +79,17 @@ export default class Application {
         if(instance == null || name == null) throw new Error("Invalid service configuration");
 
         this._services[name] = instance;
+    }
+
+    unregisterService<S, I extends S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string | S): void {
+        let name;
+
+        if(type instanceof ServiceDefinition) name = type.name;
+        else if(type instanceof Function) name = type.toString()
+        else if(typeof type === "string") name = type;
+        else name = type.constructor.toString();
+
+        this._services[name] = undefined;
     }
 
     reload(): void {
