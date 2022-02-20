@@ -9,6 +9,7 @@ export default function useCollectionResult<T>(query: ODataQueryable<T>, withCou
 
     useEffect(()=>{
         if(!deps && !loading) return
+        if(deps?.includes(undefined)) return;
         (withCount ? query.getManyWithCount() : query.getMany())
             .then((result)=> {
                 setResult(result.rows)

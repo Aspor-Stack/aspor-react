@@ -12,6 +12,7 @@ export default function useOSFirstCollectionResult<S,T>(type : (new ()=>S) | (ne
 
     useEffect(()=>{
         if(!deps && !loading) return
+        if(deps?.includes(undefined)) return;
         query(service).getFirst()
             .then((result)=> setResult(result))
             .catch((error)=>setError(error))

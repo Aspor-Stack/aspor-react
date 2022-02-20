@@ -12,6 +12,7 @@ export default function useOSSingleResult<S,T>(type : (new ()=>S) | (new (app : 
 
     useEffect(()=>{
         if(!deps && !loading) return
+        if(deps?.includes(undefined)) return;
         query(service).get()
             .then((result)=>setResult(result))
             .catch((error)=>setError(error))

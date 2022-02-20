@@ -81,7 +81,7 @@ export default class Application {
         this._services[name] = instance;
     }
 
-    unregisterService<S, I extends S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string | S): void {
+    unregisterService<S, I extends S>(type: ServiceDefinition<S> | (new ()=>S) | (new (app : Application)=>S) | string | S | Function): void {
         let name;
 
         if(type instanceof ServiceDefinition) name = type.name;
