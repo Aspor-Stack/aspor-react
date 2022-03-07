@@ -11,6 +11,8 @@ export { default as AuthenticationService, IAuthenticationService } from './syst
 
 export { default as AsporUser } from './system/service/authentication/AsporUser';
 
+export { default as LoginBehavior } from './system/service/authentication/LoginBehavior';
+
 /* Components */
 
 export { default as AsporComponent } from './components/AsporComponent';

@@ -1,5 +1,6 @@
 import AsporUser from "./AsporUser";
 import ServiceDefinition from "../ServiceDefinition";
+import LoginBehavior from "./LoginBehavior";
 
 export const AuthenticationService = new ServiceDefinition<IAuthenticationService>("authentication-service");
 export default AuthenticationService
@@ -14,8 +15,8 @@ export interface IAuthenticationService {
 
     isAuthenticated() : boolean
 
-    login(silent? : boolean) : Promise<AsporUser>;
+    login(behavior?: LoginBehavior) : Promise<AsporUser>;
 
-    logout(silent? : boolean) : void;
+    logout(behavior?: LoginBehavior) : void;
 
 }
