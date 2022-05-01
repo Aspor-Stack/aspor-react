@@ -24,12 +24,4 @@ export default class ODataService implements ODataBase{
         return this._base;
     }
 
-    document() {
-
-    }
-
-    metadata(){
-
-    }
-
 }

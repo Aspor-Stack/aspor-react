@@ -60,12 +60,14 @@ export class ProxyPropertyPredicate<T> implements
 
     any<U>(value: (entity: EntityProxy<U, true>, compound: FilterAccessoryFunctions<U>) => BooleanPredicateBuilder<U[]>) {
         const proxy = ODataQueryUtility.createProxiedEntity<U>(true);
+        // @ts-ignore
         const expression = value(proxy, new FilterAccessoryFunctions<U>()).expression;
         return this.buildCollectionFilterPredicateBuilder(expression!, ExpressionOperator.Any, proxy);
     }
 
     all<U>(value: (entity: EntityProxy<U, true>, compound: FilterAccessoryFunctions<U>) => BooleanPredicateBuilder<U[]>) {
         const proxy = ODataQueryUtility.createProxiedEntity<U>(true);
+        // @ts-ignore
         const expression = value(proxy, new FilterAccessoryFunctions<U>()).expression;
         return this.buildCollectionFilterPredicateBuilder(expression!, ExpressionOperator.All, proxy);
     }
@@ -77,7 +79,7 @@ export class ProxyPropertyPredicate<T> implements
             operand = this.getFieldReference(value as unknown as PropertyProxy<T>)
         }
         // eslint-disable-next-line
-        const expression = new Expression(operator, [this.fieldReference, new String(proxy[lambdaVariable]), operand]);
+        const expression = new Expression(operator, [this.fieldReference, String(proxy[lambdaVariable]), operand]);
         return new BooleanPredicateBuilder<P>(expression);
     }
 

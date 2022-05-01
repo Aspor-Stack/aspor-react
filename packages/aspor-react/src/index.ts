@@ -31,9 +31,13 @@ export { default as ODataSingleResult } from './components/odata/ODataSingleResu
 
 export { default as useApplication } from './hooks/system/useApplication.hook';
 
+export { default as useService } from './hooks/system/useService.hook';
+
 export { default as useUser } from './hooks/system/useUser.hook';
 
-export { default as useService } from './hooks/system/useService.hook';
+export { default as useAuthenticationService } from './hooks/system/useAuthenticationService.hook';
+
+export { default as useNotificationService } from './hooks/system/useNotificationService.hook';
 
 export { default as useCollectionResult } from './hooks/odata/useCollectionResult.hook';
 
@@ -46,6 +50,10 @@ export { default as useOSCollectionResult } from './hooks/odata/service/useOSCol
 export { default as useOSFirstCollectionResult } from './hooks/odata/service/useOSFirstCollectionResult.hook';
 
 export { default as useOSSingleResult } from './hooks/odata/service/useOSSingleResult.hook';
+
+export { default as useErrorAction } from './hooks/utility/error/useErrorAction.hook';
+
+export { default as useErrorHandler } from './hooks/utility/error/useErrorHandler.hook';
 
 /* Libraries OData */
 

@@ -7,11 +7,17 @@ export default AuthenticationService
 
 export interface IAuthenticationService {
 
+    getSchema() : string,
+
     getUser() : AsporUser,
 
-    getAuthorizationToken(),
+    getAuthorizationToken() : string,
 
-    getAuthorizationHeader(),
+    acquireAuthorizationToken() : Promise<string>
+
+    getAuthorizationHeader() : string,
+
+    acquireAuthorizationHeader() : Promise<string>
 
     isAuthenticated() : boolean
 

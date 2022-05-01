@@ -7,7 +7,7 @@ export default function useSingleResult<T>(query: ODataSingleQueryable<T>, deps?
     const [error, setError] = useState<any>(null)
 
     useEffect(()=>{
-        if(!deps && !loading) return
+        if(!deps && !loading) return;
         if(deps?.includes(undefined)) return;
         query.get()
             .then((result)=>setResult(result))
