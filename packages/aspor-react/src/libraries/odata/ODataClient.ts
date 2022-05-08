@@ -119,7 +119,7 @@ export default class ODataClient {
         })
     }
 
-    uploadFiles<E>(url : string, files : File[] | Blob[], formName?: string) : Promise<E> {
+    postBinary<E>(url : string, files : File[] | Blob[], formName?: string) : Promise<E> {
         let data = new FormData();
         for(let file of files){
             let data = new FormData();
