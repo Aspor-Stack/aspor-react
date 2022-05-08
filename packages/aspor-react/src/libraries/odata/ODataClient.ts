@@ -32,11 +32,12 @@ export default class ODataClient {
         return this._authorizationHandler;
     }
 
-    private async getAxiosConfig() : Promise<AxiosRequestConfig | undefined> {
+    private async getAxiosConfig(contentType?: string) : Promise<AxiosRequestConfig | undefined> {
         if(this._authorizationHandler) {
             return {
                 headers: {
-                    "Authorization": await this._authorizationHandler.handleAuthorization()
+                    "Authorization": await this._authorizationHandler.handleAuthorization(),
+                    "Content-Type": contentType??"application/json"
                 }
             }
         }
@@ -106,5 +107,24 @@ export default class ODataClient {
                     .catch(reject)
             }).catch(reject)
         })
+    }
+
+    postFormData<E>(url : string, data : FormData) : Promise<E> {
+        return new Promise<E>((resolve,reject)=>{
+            this.getAxiosConfig("multipart/form-data").then((config)=>{
+                axios.post(url,data,config)
+                    .then((response)=>resolve(response.data))
+                    .catch(reject)
+            }).catch(reject)
+        })
+    }
+
+    uploadFiles<E>(url : string, files : File[] | Blob[], formName?: string) : Promise<E> {
+        let data = new FormData();
+        for(let file of files){
+            let data = new FormData();
+            data.append(formName??"file", file);
+        }
+        return this.postFormData(url,data)
     }
 }
