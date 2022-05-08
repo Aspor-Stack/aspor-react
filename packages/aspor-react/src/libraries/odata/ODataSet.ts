@@ -8,12 +8,20 @@ export default class ODataSet<Entity> extends ODataCollection<Entity> {
         return this._base.client().post<Entity>(this.url(),entity);
     }
 
+    postFrom(data : FormData) : Promise<Entity> {
+        return this._base.client().postForm<Entity>(this.url(),data);
+    }
+
+    postBinary(files : File[] | Blob[], formName?: string) : Promise<Entity> {
+        return this._base.client().postBinary<Entity>(this.url(),files,formName);
+    }
+
     action<T>(name : string, data?: any) : Promise<T>{
         return this._base.client().post<T>(this.url()+"/"+name,data);
     }
 
     actionForm<T>(name : string, data : FormData) : Promise<T>{
-        return this._base.client().postFormData<T>(this.url()+"/"+name,data);
+        return this._base.client().postForm<T>(this.url()+"/"+name,data);
     }
 
     actionBinary<T>(name : string, files : File[] | Blob[], formName?: string) : Promise<T>{

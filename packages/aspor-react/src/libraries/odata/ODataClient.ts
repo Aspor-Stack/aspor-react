@@ -109,7 +109,7 @@ export default class ODataClient {
         })
     }
 
-    postFormData<E>(url : string, data : FormData) : Promise<E> {
+    postForm<E>(url : string, data : FormData) : Promise<E> {
         return new Promise<E>((resolve,reject)=>{
             this.getAxiosConfig("multipart/form-data").then((config)=>{
                 axios.post(url,data,config)
@@ -125,6 +125,6 @@ export default class ODataClient {
             let data = new FormData();
             data.append(formName??"file", file);
         }
-        return this.postFormData(url,data)
+        return this.postForm(url,data)
     }
 }

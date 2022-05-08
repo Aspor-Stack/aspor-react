@@ -25,7 +25,7 @@ export default class ODataEntity<Entity> extends ODataSingleQueryable<Entity> {
     }
 
     actionForm<T>(name : string, data : FormData) : Promise<T>{
-        return this._base.client().postFormData<T>(this.url()+"/"+name,data);
+        return this._base.client().postForm<T>(this.url()+"/"+name,data);
     }
 
     actionBinary<T>(name : string, files : File[] | Blob[], formName?: string) : Promise<T>{
