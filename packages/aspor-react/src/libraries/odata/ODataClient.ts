@@ -4,7 +4,7 @@ import {IAuthenticationService} from "../../system/service/authentication/authen
 
 export interface AuthorizationHandler {
 
-    handleAuthorization() : Promise<string>
+    handleAuthorization() : Promise<string|undefined>
 
 }
 
@@ -21,8 +21,9 @@ export default class ODataClient {
             this._authorizationHandler = authorizationHandler;
         }else{
             this._authorizationHandler = new class implements AuthorizationHandler {
-                handleAuthorization(): Promise<string> {
-                    return authorizationHandler.acquireAuthorizationHeader()
+                handleAuthorization(): Promise<string|undefined> {
+                    if(authorizationHandler.isAuthenticated()) return authorizationHandler.acquireAuthorizationHeader()
+                    else return undefined;
                 }
             }
         }
