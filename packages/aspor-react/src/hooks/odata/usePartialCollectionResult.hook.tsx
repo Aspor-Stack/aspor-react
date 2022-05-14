@@ -13,7 +13,6 @@ export default function usePartialCollectionResult<S,T>(query: ODataQueryable<T>
     const loadNext = () => setLoadIndex(i => i+loadSteps)
 
     useEffect(()=>{
-        setLoading(true);
         let reset = loadIndex === 0;
         (withCount ? query.getManyWithCount() : query.getMany())
             .then((result)=> {

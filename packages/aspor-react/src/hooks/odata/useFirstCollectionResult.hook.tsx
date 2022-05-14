@@ -9,7 +9,6 @@ export default function useFirstCollectionResult<T>(query: ODataQueryable<T>, de
     useEffect(()=>{
         if(!deps && !loading) return
         if(deps?.includes(undefined)) return;
-        setLoading(true);
         query.getFirst()
             .then((result)=> setRow(result))
             .catch((error)=>setError(error))

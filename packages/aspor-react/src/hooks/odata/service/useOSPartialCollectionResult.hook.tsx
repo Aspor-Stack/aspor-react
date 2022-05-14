@@ -15,7 +15,6 @@ export default function useOSPartialCollectionResult<S,T>(type : (new ()=>S) | (
     const loadNext = () => setLoadIndex(i => i+loadSteps)
 
     useEffect(()=>{
-        setLoading(true);
         let reset = loadIndex === 0;
         let query0 = query(service).skip(loadIndex).top(loadSteps);
         (withCount ? query0.getManyWithCount() : query0.getMany())

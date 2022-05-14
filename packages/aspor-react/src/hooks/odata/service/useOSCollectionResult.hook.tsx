@@ -14,7 +14,6 @@ export default function useOSCollectionResult<S,T>(type : (new ()=>S) | (new (ap
     useEffect(()=>{
         if(!deps && !loading) return
         if(deps?.includes(undefined)) return;
-        setLoading(true);
         let query0 = query(service);
         (withCount ? query0.getManyWithCount() : query0.getMany())
             .then((result)=> {
