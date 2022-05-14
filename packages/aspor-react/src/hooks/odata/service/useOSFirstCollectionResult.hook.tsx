@@ -3,9 +3,9 @@ import Application from "../../../system/Application";
 import useService from "../../system/useService.hook";
 import ODataQueryable from "../../../libraries/odata/query/ODataQueryable";
 
-export default function useOSFirstCollectionResult<S,T>(type : (new ()=>S) | (new (app : Application)=>S),query : (service : S)=>ODataQueryable<T>, deps?: DependencyList) : { loading: boolean, result: T, error: any } {
+export default function useOSFirstCollectionResult<S,T>(type : (new ()=>S) | (new (app : Application)=>S),query : (service : S)=>ODataQueryable<T>, deps?: DependencyList) : { loading: boolean, row: T, error: any } {
     const [loading, setLoading] = useState<boolean>(true)
-    const [result, setResult] = useState<T|null>(null)
+    const [row, setRow] = useState<T|undefined>()
     const [error, setError] = useState<any>(null)
 
     let service = useService(type);
@@ -13,11 +13,12 @@ export default function useOSFirstCollectionResult<S,T>(type : (new ()=>S) | (ne
     useEffect(()=>{
         if(!deps && !loading) return
         if(deps?.includes(undefined)) return;
+        setLoading(true);
         query(service).getFirst()
-            .then((result)=> setResult(result))
+            .then((result)=> setRow(result))
             .catch((error)=>setError(error))
             .finally(()=>setLoading(false))
     }, deps);
 
-    return {loading, result, error}
+    return {loading, row, error}
 }

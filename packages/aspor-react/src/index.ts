@@ -45,11 +45,15 @@ export { default as useFirstCollectionResult } from './hooks/odata/useFirstColle
 
 export { default as useSingleResult } from './hooks/odata/useSingleResult.hook';
 
+export { default as usePartialCollectionResult } from './hooks/odata/usePartialCollectionResult.hook';
+
 export { default as useOSCollectionResult } from './hooks/odata/service/useOSCollectionResult.hook';
 
 export { default as useOSFirstCollectionResult } from './hooks/odata/service/useOSFirstCollectionResult.hook';
 
 export { default as useOSSingleResult } from './hooks/odata/service/useOSSingleResult.hook';
+
+export { default as useOSPartialCollectionResult } from './hooks/odata/service/useOSPartialCollectionResult.hook';
 
 export { default as useErrorAction } from './hooks/utility/error/useErrorAction.hook';
 
