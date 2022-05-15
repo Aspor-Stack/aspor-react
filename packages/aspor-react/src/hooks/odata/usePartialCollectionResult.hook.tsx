@@ -1,7 +1,5 @@
 import {DependencyList, useEffect, useState} from "react";
-import Application from "../../system/Application";
 import ODataQueryable from "../../libraries/odata/query/ODataQueryable";
-import useService from "../system/useService.hook";
 
 export default function usePartialCollectionResult<S,T>(query: ODataQueryable<T>, withCount: boolean, loadSteps: number, deps?: DependencyList) : { loading: boolean, rows: T[], count: number, error: any, next: ()=>void } {
     const [loading, setLoading] = useState<boolean>(true)
@@ -12,7 +10,7 @@ export default function usePartialCollectionResult<S,T>(query: ODataQueryable<T>
 
     const loadNext = () => setLoadIndex(i => i+loadSteps)
 
-    useEffect(()=>{
+    const load = () => {
         let reset = loadIndex === 0;
         (withCount ? query.getManyWithCount() : query.getMany())
             .then((result)=> {
@@ -21,12 +19,17 @@ export default function usePartialCollectionResult<S,T>(query: ODataQueryable<T>
             })
             .catch((error)=>setError(error))
             .finally(()=>setLoading(false))
+    }
+
+    useEffect(()=>{
+        load()
     }, [loadIndex]);
 
     useEffect(()=>{
         if(!deps && !loading) return
         if(deps?.includes(undefined)) return;
         setLoadIndex(0)
+        load()
     }, deps);
 
     return {loading, rows, count, error, next: loadNext}
