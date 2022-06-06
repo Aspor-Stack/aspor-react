@@ -2,6 +2,8 @@ import ODataClient from "./ODataClient";
 
 export default interface ODataBase {
 
+    formatters?: any;
+
     client() : ODataClient
 
     url() : string
@@ -11,6 +13,7 @@ export default interface ODataBase {
 export abstract class AbstractODataBase implements ODataBase {
 
     protected readonly _base : ODataBase
+    public formatters : any
 
     protected constructor(base : ODataBase) {
         this._base = base;

@@ -106,18 +106,18 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
         if(this._expression){
             let query : ODataQuerySegments = {}
             ODataExpressionVisitor.visit(query,this._expression);
-            return this._base.client().getMany(this.url()+ODataQueryUtility.compileQuery(query));
+            return this._base.client().getMany(this.url()+ODataQueryUtility.compileQuery(query),this.formatters);
         }
-        return this._base.client().getMany(this.url());
+        return this._base.client().getMany(this.url(),this.formatters);
     }
 
     getManyWithCount() : Promise<ODataResult<UEntity>> {
         if(this._expression){
             let query : ODataQuerySegments = {count: true}
             ODataExpressionVisitor.visit(query,this._expression);
-            return this._base.client().getMany(this.url()+ODataQueryUtility.compileQuery(query));
+            return this._base.client().getMany(this.url()+ODataQueryUtility.compileQuery(query),this.formatters);
         }
-        return this._base.client().getMany(this.url()+"?$count=true");
+        return this._base.client().getMany(this.url()+"?$count=true",this.formatters);
     }
 
     getFirst() : Promise<UEntity> {
@@ -126,7 +126,7 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
             ODataExpressionVisitor.visit(query,this._expression);
             query.top = 1;
             return new Promise((resolve,reject)=>{
-                this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query))
+                this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query),this.formatters)
                     .then((result : any)=>{
                         if(result.value && result.value.length > 0) resolve(result.value[0]);
                         else reject();
@@ -134,7 +134,7 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
             });
         }else{
             return new Promise((resolve,reject)=>{
-                this._base.client().get(this.url()+"?$top=1")
+                this._base.client().get(this.url()+"?$top=1",this.formatters)
                     .then((result : any)=>{
                         if(result.value && result.value.length > 0) result(result.value[0]);
                         else reject();

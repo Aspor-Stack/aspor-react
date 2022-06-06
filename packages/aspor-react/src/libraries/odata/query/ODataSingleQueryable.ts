@@ -76,9 +76,9 @@ export default class ODataSingleQueryable<Entity, UEntity = Entity> extends Abst
         if(this._expression){
             let query : ODataQuerySegments = {}
             ODataExpressionVisitor.visit(query,this._expression);
-            return this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query));
+            return this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query),this.formatters);
         }
-        return this._base.client().get(this.url());
+        return this._base.client().get(this.url(),this.formatters);
     }
 
     getTracked() : Promise<Tracked<Entity>> {
