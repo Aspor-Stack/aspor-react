@@ -70,6 +70,16 @@ export default class ODataClient {
         })
     }
 
+    getCount(url : string, formatters?: any) : Promise<number> {
+        return new Promise<number>((resolve,reject)=>{
+            this.getAxiosConfig().then((config)=>{
+                axios.get(url,config)
+                    .then((response)=>resolve(response.data["@odata.count"]??0))
+                    .catch(reject)
+            }).catch(reject)
+        })
+    }
+
     post<E>(url : string, data : any, formatters?: any) : Promise<E> {
         return new Promise<E>((resolve,reject)=>{
             this.getAxiosConfig().then((config)=>{
