@@ -149,10 +149,14 @@ export default class ODataClient {
                 };
             }else if(request.type == ODataRequestType.COLLECTION_FIRST){
                 let row = body.value?.length > 0 ? body.value[0] : undefined
-                return {
-                    context: body["@odata.context"],
-                    ...this.formatIncoming(row)
-                };
+                if(row) {
+                    return {
+                        context: body["@odata.context"],
+                        ...this.formatIncoming(row)
+                    };
+                }else {
+                    return undefined;
+                }
             }else if(request.type == ODataRequestType.ENTITY){
                 return {
                     context: body["@odata.context"],
