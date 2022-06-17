@@ -1,6 +1,11 @@
-import ODataResult from "./query/ODataResult";
 import axios, {AxiosRequestConfig} from "axios";
 import {IAuthenticationService} from "../../system/service/authentication/authentication.service";
+import ODataRequest, {BinaryBody} from "./request/ODataRequest";
+import ODataBatch from "./ODataBatch";
+import {ODataResponse} from "./response/ODataResponse";
+import ODataRequestMethod from "./request/ODataRequestMethod";
+import ODataRequestType from "./request/ODataRequestType";
+import {ODataErrorResponse} from "./response/ODataErrorResponse";
 
 export interface AuthorizationHandler {
 
@@ -9,137 +14,157 @@ export interface AuthorizationHandler {
 }
 
 function instanceOfAuthorizationHandler(object: any): object is AuthorizationHandler {
-    return 'handleAuthorization' in object;
+    return object && 'handleAuthorization' in object;
 }
 
 export default class ODataClient {
 
+    private readonly _base : string
     private readonly _authorizationHandler? : AuthorizationHandler
 
-    constructor(authorizationHandler? : AuthorizationHandler | IAuthenticationService) {
-        if(instanceOfAuthorizationHandler(authorizationHandler)){
-            this._authorizationHandler = authorizationHandler;
-        }else{
-            this._authorizationHandler = new class implements AuthorizationHandler {
-                handleAuthorization(): Promise<string|undefined> {
-                    if(authorizationHandler.isAuthenticated()) return authorizationHandler.acquireAuthorizationHeader()
-                    else return undefined;
+    constructor(base : string, authorizationHandler? : AuthorizationHandler | IAuthenticationService) {
+        this._base = base;
+        if(authorizationHandler){
+            if(instanceOfAuthorizationHandler(authorizationHandler)){
+                this._authorizationHandler = authorizationHandler;
+            }else{
+                this._authorizationHandler = new class implements AuthorizationHandler {
+                    handleAuthorization(): Promise<string|undefined> {
+                        if(authorizationHandler.isAuthenticated()) return authorizationHandler.acquireAuthorizationHeader()
+                        else return undefined;
+                    }
                 }
             }
         }
+    }
+
+    get base(){
+        return this._base;
     }
 
     get authorizationHandler(){
         return this._authorizationHandler;
     }
 
-    private async getAxiosConfig(contentType?: string) : Promise<AxiosRequestConfig | undefined> {
+    private async getAxiosConfig(formRequest?: boolean) : Promise<AxiosRequestConfig | undefined> {
         if(this._authorizationHandler) {
             return {
                 headers: {
                     "Authorization": await this._authorizationHandler.handleAuthorization(),
-                    "Content-Type": contentType??"application/json"
+                    "Content-Type": formRequest ? "multipart/form-data" : "application/json"
                 }
             }
         }
         return undefined;
     }
 
-    get<E>(url : string, formatters?: any) : Promise<E> {
-        return new Promise<E>((resolve,reject)=>{
-            this.getAxiosConfig().then((config)=>{
-                axios.get(url,config)
-                    .then((response)=>resolve(this.formatIncoming(response.data,formatters)))
+    execute<T extends ODataResponse>(request : ODataRequest<T>) : Promise<T> {
+        return new Promise<T>((resolve,reject)=>{
+            let formRequest = request.body instanceof FormData || request.body instanceof BinaryBody;
+            this.getAxiosConfig(formRequest).then((config)=>{
+                let url = this._base+request.url;
+
+                let promise : Promise<any>;
+                if(request.method === ODataRequestMethod.GET) promise = axios.get(url,config);
+                else if(request.method === ODataRequestMethod.DELETE) promise = axios.delete(url,config);
+                else if(request.method === ODataRequestMethod.POST) promise = axios.post(url,ODataClient.processRequestBody(request),config);
+                else if(request.method === ODataRequestMethod.PUT) promise = axios.put(url,ODataClient.processRequestBody(request),config);
+                else if(request.method === ODataRequestMethod.PATCH) promise = axios.patch(url,ODataClient.processRequestBody(request),config);
+
+                promise
+                    .then((response)=>resolve(ODataClient.processResponseBody(request,response.data)))
                     .catch(reject)
+
             }).catch(reject)
         })
     }
 
-    getMany<E>(url : string, formatters?: any) : Promise<ODataResult<E>> {
-        return new Promise<ODataResult<E>>((resolve,reject)=>{
+    executeBatch(batch : ODataBatch) : Promise<ODataResponse[]>{
+        return new Promise<any>((resolve,reject)=>{
+            let body = {
+                requests: batch.requests().map((request)=>({
+                    id: request.id,
+                    method: request.method,
+                    url: request.url.substring(1),
+                    body: request.body ? JSON.stringify(ODataClient.processRequestBody(request)) : undefined
+                }))
+            }
             this.getAxiosConfig().then((config)=>{
-                axios.get(url,config)
+                axios.post(this._base+"/$batch",body,config)
                     .then((response)=>{
-                        resolve({
-                            count: response.data["@odata.count"],
-                            rows: this.formatIncomingMany(response.data.value as E[],formatters)
-                        })
+                        resolve(response.data.responses.map((response : any)=>{
+                            let request = batch.requests().find(r => r.id === response.id);
+                            if(!request) reject(new Error("received invalid response"));
+
+                            if(response.status >= 200 && response.status <= 220){
+                                let result = ODataClient.processResponseBody(request,response.body)
+                                if(request.successHandler) this.executePromiseHandlerAsync(request.successHandler,result);
+                                return result;
+                            }else{
+                                let error : any = new Error("Network Error");
+                                error.response = response;
+                                if(request.errorHandler) this.executePromiseHandlerAsync(request.errorHandler,error);
+                                return {
+                                    error: error,
+                                    context: "error"
+                                } as ODataErrorResponse;
+                            }
+                        }))
                     })
                     .catch(reject)
             }).catch(reject)
         })
     }
 
-    getCount(url : string, formatters?: any) : Promise<number> {
-        return new Promise<number>((resolve,reject)=>{
-            this.getAxiosConfig().then((config)=>{
-                axios.get(url,config)
-                    .then((response)=>resolve(response.data["@odata.count"]??0))
-                    .catch(reject)
-            }).catch(reject)
-        })
+    async executePromiseHandlerAsync(method: (any)=>void, data: any){
+        method(data)
     }
 
-    post<E>(url : string, data : any, formatters?: any) : Promise<E> {
-        return new Promise<E>((resolve,reject)=>{
-            this.getAxiosConfig().then((config)=>{
-                axios.post(url,data,config)
-                    .then((response)=>resolve(this.formatOutgoing(response.data,formatters)))
-                    .catch(reject)
-            }).catch(reject)
-        })
-    }
-
-    patch<E>(url : string, delta : any, formatters?: any) : Promise<E> {
-        return new Promise<E>((resolve,reject)=>{
-            this.getAxiosConfig().then((config)=>{
-                axios.patch(url,delta,config)
-                    .then((response)=>resolve(this.formatOutgoing(response.data,formatters)))
-                    .catch(reject)
-            }).catch(reject)
-        })
-    }
-
-    put<E>(url : string, delta : any, formatters?: any) : Promise<E> {
-        return new Promise<E>((resolve,reject)=>{
-            this.getAxiosConfig().then((config)=>{
-                axios.put(url,delta,config)
-                    .then((response)=>resolve(this.formatOutgoing(response.data,formatters)))
-                    .catch(reject)
-            }).catch(reject)
-        })
-    }
-
-    delete<E>(url : string) : Promise<E> {
-        return new Promise<E>((resolve,reject)=>{
-            this.getAxiosConfig().then((config)=>{
-                axios.delete(url,config)
-                    .then((response)=>resolve(response.data))
-                    .catch(reject)
-            }).catch(reject)
-        })
-    }
-
-    postForm<E>(url : string, data : FormData) : Promise<E> {
-        return new Promise<E>((resolve,reject)=>{
-            this.getAxiosConfig("multipart/form-data").then((config)=>{
-                axios.post(url,data,config)
-                    .then((response)=>resolve(response.data))
-                    .catch(reject)
-            }).catch(reject)
-        })
-    }
-
-    postBinary<E>(url : string, files : File[] | Blob[], formName?: string) : Promise<E> {
-        let data = new FormData();
-        for(let file of files){
-            data.append(formName??"file", file);
+    private static processRequestBody(request : ODataRequest<any>) : any|undefined {
+        if(request.body && !(request.body instanceof FormData)){
+            if(request.body instanceof BinaryBody){
+                let data = new FormData();
+                for(let file of request.body.files){
+                    data.append(request.body.formName??"file", file);
+                }
+                return data;
+            }
+            if(request.formatters) return this.formatOutgoing(request.body,request.formatters)
         }
-        return this.postForm(url,data)
+        return request.body;
     }
 
-    private formatIncoming(row : any, formatters? : any) : any{
-        if(row){
+    private static processResponseBody(request : ODataRequest<any>, body: any) : any|undefined {
+        if(body){
+            if(request.type == ODataRequestType.COLLECTION){
+                return {
+                    context: body["@odata.context"],
+                    count: body["@odata.count"],
+                    rows: body.value?.map((row)=>this.formatIncoming(row,request.formatters))??[]
+                };
+            }else  if(request.type == ODataRequestType.COLLECTION_COUNT){
+                return {
+                    context: body["@odata.context"],
+                    count: body["@odata.count"],
+                };
+            }else if(request.type == ODataRequestType.COLLECTION_FIRST){
+                let row = body.value?.length > 0 ? body.value[0] : undefined
+                return {
+                    context: body["@odata.context"],
+                    ...this.formatIncoming(row)
+                };
+            }else if(request.type == ODataRequestType.ENTITY){
+                return {
+                    context: body["@odata.context"],
+                    ...this.formatIncoming(body,request.formatters)
+                };
+            }
+        }
+        return new Error("Invalid response content");
+    }
+
+    private static formatIncoming(row : any, formatters? : any) : any{
+        if(row && formatters){
             for(let key of Object.keys(formatters)){
                 let value = row[key];
                 if(value !== null) row[key] = formatters[key].formatIncoming(value);
@@ -148,13 +173,8 @@ export default class ODataClient {
         return row;
     }
 
-    private formatIncomingMany(rows : any[], formatters? : any) : any[] {
-        if(rows && formatters) for(let row of rows) this.formatIncoming(row,formatters)
-        return rows;
-    }
-
-    private formatOutgoing(row : any, formatters? : any) : any{
-        if(row){
+    private static formatOutgoing(row : any, formatters? : any) : any{
+        if(row && formatters){
             for(let key of Object.keys(formatters)){
                 let value = row[key];
                 if(value !== null) row[key] = formatters[key].formatOutgoing(value);

@@ -1,16 +1,21 @@
 import ODataBase, {AbstractODataBase} from "../ODataBase";
-import {ODataResult} from "./ODataResult";
 import {ODataQueryUtility} from "./ODataQueryUtility";
 import {ODataExpressionVisitor} from "./expression/ODataExpressionVisitor";
 import {Expression} from "./expression/Expression";
 import {BooleanPredicateBuilder} from "./expression/BooleanPredicateBuilder";
-import { FilterAccessoryFunctions } from "./expression/FilterAccessoryFunctions";
+import {FilterAccessoryFunctions} from "./expression/FilterAccessoryFunctions";
 import {EntityProxy, propertyPath, PropertyProxy} from "./expression/proxy/ProxyTypes";
 import {ExpressionOperator} from "./expression/ExpressionOperator";
 import {ProjectorType} from "./expression/proxy/ProxyFilterTypes";
 import {FieldReference} from "./expression/field/FieldReference";
 import {FieldsFor} from "./expression/field/FieldsForType";
 import ODataQuerySegments from "./ODataQuerySegments";
+import ODataRequest from "../request/ODataRequest";
+import ODataRequestMethod from "../request/ODataRequestMethod";
+import {ODataCollectionResponse} from "../response/ODataCollectionResponse";
+import ODataRequestType from "../request/ODataRequestType";
+import {ODataCountResponse} from "../response/ODataCountResponse";
+import {ODataResponse} from "../response/ODataResponse";
 
 export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractODataBase{
 
@@ -30,7 +35,8 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
 
     public filter(predicate: BooleanPredicateBuilder<Entity> | ((builder: EntityProxy<Entity, true>, functions: FilterAccessoryFunctions<Entity>) => BooleanPredicateBuilder<Entity>)) {
         if (typeof predicate === "function"){
-            predicate = predicate(ODataQueryUtility.createProxiedEntity<Entity>(), new FilterAccessoryFunctions<Entity>());
+            // @ts-ignore
+            predicate = predicate(ODataQueryUtility.createProxiedEntity<Entity>(false), new FilterAccessoryFunctions<Entity>());
         }
         const expression = new Expression(ExpressionOperator.Predicate, [predicate], this._expression);
         return new ODataQueryable<Entity,UEntity>(this,undefined,expression);
@@ -102,53 +108,30 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
         return new ODataQueryable<Entity,UEntity>(this,undefined,expression);
     }
 
-    getMany() : Promise<ODataResult<UEntity>> {
+    private create(type : ODataRequestType, count ?: boolean, top?: number) : ODataRequest<any> {
+        let url;
         if(this._expression){
-            let query : ODataQuerySegments = {}
+            let query : ODataQuerySegments = {count: count??false, top}
             ODataExpressionVisitor.visit(query,this._expression);
-            return this._base.client().getMany(this.url()+ODataQueryUtility.compileQuery(query),this.formatters);
-        }
-        return this._base.client().getMany(this.url(),this.formatters);
+            url = this.url()+ODataQueryUtility.compileQuery(query);
+        }else if(count && top) url = this.url()+"?$count=true&top";
+        else url = this.url();
+        return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,type,this.formatters)
     }
 
-    getManyWithCount() : Promise<ODataResult<UEntity>> {
-        if(this._expression){
-            let query : ODataQuerySegments = {count: true}
-            ODataExpressionVisitor.visit(query,this._expression);
-            return this._base.client().getMany(this.url()+ODataQueryUtility.compileQuery(query),this.formatters);
-        }
-        return this._base.client().getMany(this.url()+"?$count=true",this.formatters);
+    getMany(): ODataRequest<ODataCollectionResponse<UEntity>> {
+        return this.create(ODataRequestType.COLLECTION)
     }
 
-    getCount() : Promise<number> {
-        if(this._expression){
-            let query : ODataQuerySegments = {count: true, top: 0}
-            ODataExpressionVisitor.visit(query,this._expression);
-            return this._base.client().getCount(this.url()+ODataQueryUtility.compileQuery(query),this.formatters);
-        }
-        return this._base.client().getCount(this.url()+"?$count=true&$top=0",this.formatters);
+    getManyWithCount() : ODataRequest<ODataCollectionResponse<UEntity>>{
+        return this.create(ODataRequestType.COLLECTION,true)
     }
 
-    getFirst() : Promise<UEntity> {
-        if(this._expression){
-            let query : ODataQuerySegments = {}
-            ODataExpressionVisitor.visit(query,this._expression);
-            query.top = 1;
-            return new Promise((resolve,reject)=>{
-                this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query),this.formatters)
-                    .then((result : any)=>{
-                        if(result.value && result.value.length > 0) resolve(result.value[0]);
-                        else reject();
-                    }).catch(reject)
-            });
-        }else{
-            return new Promise((resolve,reject)=>{
-                this._base.client().get(this.url()+"?$top=1",this.formatters)
-                    .then((result : any)=>{
-                        if(result.value && result.value.length > 0) result(result.value[0]);
-                        else reject();
-                    }).catch(reject)
-            });
-        }
+    getCount() : ODataRequest<ODataCountResponse>{
+        return this.create(ODataRequestType.COLLECTION_COUNT,true,0)
+    }
+
+    getFirst() : ODataRequest<ODataResponse & UEntity>{
+        return this.create(ODataRequestType.COLLECTION_FIRST,true,1)
     }
 }

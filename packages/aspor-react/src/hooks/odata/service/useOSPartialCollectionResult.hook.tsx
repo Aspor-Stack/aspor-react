@@ -17,7 +17,7 @@ export default function useOSPartialCollectionResult<S,T>(type : (new ()=>S) | (
     useEffect(()=>{
         let reset = loadIndex === 0;
         let query0 = query(service).skip(loadIndex).top(loadSteps);
-        (withCount ? query0.getManyWithCount() : query0.getMany())
+        (withCount ? query0.getManyWithCount().now() : query0.getMany().now())
             .then((result)=> {
                 setRows(rows => reset ? result.rows : [...rows,...result.rows])
                 setCount(result.count)

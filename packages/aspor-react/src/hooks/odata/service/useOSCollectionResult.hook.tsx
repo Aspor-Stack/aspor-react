@@ -15,7 +15,7 @@ export default function useOSCollectionResult<S,T>(type : (new ()=>S) | (new (ap
         if(!deps && !loading) return
         if(deps?.includes(undefined)) return;
         let query0 = query(service);
-        (withCount ? query0.getManyWithCount() : query0.getMany())
+        (withCount ? query0.getManyWithCount().now() : query0.getMany().now())
             .then((result)=> {
                 setRows(result.rows)
                 setCount(result.count)

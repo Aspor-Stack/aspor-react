@@ -36,7 +36,7 @@ export default class ODataFirstCollectionResult<T> extends AsporComponent<ODataF
     load(props : ODataFirstCollectionResultProps<T>){
         let query = props.query;
         if(query){
-            query.getFirst().then((result)=>{
+            query.getFirst().now().then((result)=>{
                 this.setState({result,loading:false})
             })
         }

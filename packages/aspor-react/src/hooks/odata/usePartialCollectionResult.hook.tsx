@@ -12,7 +12,7 @@ export default function usePartialCollectionResult<S,T>(query: ODataQueryable<T>
 
     const load = () => {
         let reset = loadIndex === 0;
-        (withCount ? query.getManyWithCount() : query.getMany())
+        (withCount ? query.getManyWithCount().now() : query.getMany().now())
             .then((result)=> {
                 setRows(rows => reset ? result.rows : [...rows,...result.rows])
                 setCount(result.count)

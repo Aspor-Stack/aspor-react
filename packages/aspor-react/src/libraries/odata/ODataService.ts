@@ -1,15 +1,13 @@
 import ODataBase from "./ODataBase";
 import ODataClient from "./ODataClient";
-
+import ODataBatch from "./ODataBatch";
 
 export default class ODataService implements ODataBase{
 
     private readonly _client : ODataClient
-    private readonly _base : string
 
-    constructor(client : ODataClient,base : string) {
+    constructor(client : ODataClient) {
         this._client = client;
-        this._base = base;
     }
 
     client(): ODataClient {
@@ -17,11 +15,11 @@ export default class ODataService implements ODataBase{
     }
 
     url(): string {
-        return this._base;
+        return "";
     }
 
-    base() {
-        return this._base;
+    startBatch() : ODataBatch {
+        return new ODataBatch(this);
     }
 
 }

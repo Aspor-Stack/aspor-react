@@ -36,7 +36,7 @@ export default class ODataCollectionResult<T> extends AsporComponent<ODataCollec
     load(props : ODataCollectionResultProps<T>){
         let query = props.query;
         if(query){
-            query.getMany().then((result)=>{
+            query.getMany().now().then((result)=>{
                 this.setState({result: result.rows,loading:false})
             })
         }

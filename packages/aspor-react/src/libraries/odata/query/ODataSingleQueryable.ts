@@ -8,7 +8,10 @@ import {FieldsFor} from "./expression/field/FieldsForType";
 import ODataQueryable from "./ODataQueryable";
 import ODataQuerySegments from "./ODataQuerySegments";
 import {ODataExpressionVisitor} from "./expression/ODataExpressionVisitor";
-import Tracked from "../tracked/Tracked";
+import {ODataResponse} from "../response/ODataResponse";
+import ODataRequest from "../request/ODataRequest";
+import ODataRequestMethod from "../request/ODataRequestMethod";
+import ODataRequestType from "../request/ODataRequestType";
 
 export default class ODataSingleQueryable<Entity, UEntity = Entity> extends AbstractODataBase{
 
@@ -72,20 +75,15 @@ export default class ODataSingleQueryable<Entity, UEntity = Entity> extends Abst
         return new ODataSingleQueryable<Entity,UEntity>(this,undefined,undefined,expression);
     }
 
-    get() : Promise<Entity> {
+    get() : ODataRequest<ODataResponse & UEntity> {
+        let url : string;
         if(this._expression){
             let query : ODataQuerySegments = {}
             ODataExpressionVisitor.visit(query,this._expression);
-            return this._base.client().get(this.url()+ODataQueryUtility.compileQuery(query),this.formatters);
+            url = this.url()+ODataQueryUtility.compileQuery(query);
+        }else{
+            url = this.url();
         }
-        return this._base.client().get(this.url(),this.formatters);
-    }
-
-    getTracked() : Promise<Tracked<Entity>> {
-        return new Promise<Tracked<Entity>>((resolve,reject)=>{
-            this.get()
-                .then((result : Entity)=> resolve(new Tracked(this._base,this._id,result)))
-                .catch(reject)
-        })
+        return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,ODataRequestType.ENTITY, this.formatters)
     }
 }

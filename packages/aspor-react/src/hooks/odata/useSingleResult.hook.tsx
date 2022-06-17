@@ -9,7 +9,7 @@ export default function useSingleResult<T>(query: ODataSingleQueryable<T>, deps?
     useEffect(()=>{
         if(!deps && !loading) return;
         if(deps?.includes(undefined)) return;
-        query.get()
+        query.get().now()
             .then((result)=>setRow(result))
             .catch((error)=>setError(error))
             .finally(()=>setLoading(false))

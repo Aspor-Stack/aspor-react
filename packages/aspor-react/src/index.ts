@@ -75,15 +75,28 @@ export { default as ODataService } from './libraries/odata/ODataService';
 
 export { default as ODataSet } from './libraries/odata/ODataSet';
 
-export { default as Tracked } from './libraries/odata/tracked/Tracked';
-
-export { default as ODataResult } from './libraries/odata/query/ODataResult';
-
 export { default as ODataQueryable } from './libraries/odata/query/ODataQueryable';
 
 export { default as ODataSingleQueryable } from './libraries/odata/query/ODataSingleQueryable';
 
 export { default as ODataQuerySegments } from './libraries/odata/query/ODataQuerySegments';
+
+export { default as ODataBatch } from './libraries/odata/ODataBatch';
+
+export { default as ODataRequest } from './libraries/odata/request/ODataRequest';
+
+export { default as ODataRequestMethod } from './libraries/odata/request/ODataRequestMethod';
+
+export { default as ODataRequestType } from './libraries/odata/request/ODataRequestType';
+
+export { default as ODataResponse } from './libraries/odata/response/ODataResponse';
+
+export { default as ODataErrorResponse } from './libraries/odata/response/ODataErrorResponse';
+
+export { default as ODataCollectionResponse } from './libraries/odata/response/ODataCollectionResponse';
+
+export { default as ODataCountResponse } from './libraries/odata/response/ODataCountResponse';
+
 
 
 

@@ -1,39 +1,44 @@
 import ODataCollection from "./ODataCollection";
 import ODataQueryUtility from "./query/ODataQueryUtility";
-import {ODataQueryable} from "../../index";
+import ODataRequest, {BinaryBody} from "./request/ODataRequest";
+import ODataRequestMethod from "./request/ODataRequestMethod";
+import {ODataResponse} from "./response/ODataResponse";
+import ODataRequestType from "./request/ODataRequestType";
+import {ODataCollectionResponse} from "./response/ODataCollectionResponse";
 
 export default class ODataSet<Entity> extends ODataCollection<Entity> {
 
-    post(entity : any) : Promise<Entity> {
-        return this._base.client().post<Entity>(this.url(),entity);
+    post(entity : any) : ODataRequest<ODataResponse & Entity> {
+        return new ODataRequest<any>(this.client(),this.url(),ODataRequestMethod.POST,ODataRequestType.ENTITY, this.formatters,entity)
     }
 
-    postFrom(data : FormData) : Promise<Entity> {
-        return this._base.client().postForm<Entity>(this.url(),data);
+    postFrom(data : FormData) : ODataRequest<ODataResponse & Entity> {
+        return new ODataRequest<any>(this.client(),this.url(),ODataRequestMethod.POST,ODataRequestType.ENTITY, this.formatters,data)
     }
 
-    postBinary(files : File[] | Blob[], formName?: string) : Promise<Entity> {
-        return this._base.client().postBinary<Entity>(this.url(),files,formName);
+    postBinary(files : File[] | Blob[], formName?: string) : ODataRequest<ODataResponse & Entity> {
+        return new ODataRequest<any>(this.client(),this.url(),ODataRequestMethod.POST,ODataRequestType.ENTITY, this.formatters,new BinaryBody(files,formName))
     }
 
-    action<T>(name : string, data?: any) : Promise<T>{
-        return this._base.client().post<T>(this.url()+"/"+name,data);
+    action<T>(name : string, data?: any) : ODataRequest<ODataResponse & T>{
+        return new ODataRequest<any>(this.client(),this.url()+"/"+name,ODataRequestMethod.POST,ODataRequestType.ENTITY, this.formatters,data)
     }
 
-    actionForm<T>(name : string, data : FormData) : Promise<T>{
-        return this._base.client().postForm<T>(this.url()+"/"+name,data);
+    actionForm<T>(name : string, data : FormData) : ODataRequest<ODataResponse & T>{
+        return new ODataRequest<any>(this.client(),this.url()+"/"+name,ODataRequestMethod.POST,ODataRequestType.ENTITY, this.formatters,data)
     }
 
-    actionBinary<T>(name : string, files : File[] | Blob[], formName?: string) : Promise<T>{
-        return this._base.client().postBinary<T>(this.url()+"/"+name,files,formName);
+    actionBinary<T>(name : string, files : File[] | Blob[], formName?: string) : ODataRequest<ODataResponse & T>{
+        return new ODataRequest<any>(this.client(),this.url()+"/"+name,ODataRequestMethod.POST,ODataRequestType.ENTITY, this.formatters,new BinaryBody(files,formName))
     }
 
-    function<T>(name : string, parameters?: any) : Promise<T>{
-        return this._base.client().get<T>(this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters));
+    function<T>(name : string, parameters?: any) : ODataRequest<ODataResponse & T>{
+        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
+        return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,ODataRequestType.ENTITY, this.formatters)
     }
 
-    collectionFunction<T>(name : string, parameters?: any) : ODataQueryable<T> {
-        let url = name+ODataQueryUtility.compileQueryParameters(parameters);
-        return new ODataQueryable(this,url)
+    collectionFunction<T>(name : string, parameters?: any) : ODataRequest<ODataCollectionResponse<T>> {
+        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
+        return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,ODataRequestType.COLLECTION, this.formatters)
     }
 }

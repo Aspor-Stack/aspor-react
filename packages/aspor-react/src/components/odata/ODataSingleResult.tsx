@@ -36,7 +36,7 @@ export default class ODataSingleResult<T> extends AsporComponent<ODataSingleResu
     load(props : ODataSingleResultProps<T>){
         let query = props.query;
         if(query){
-            query.get().then((result)=>{
+            query.get().now().then((result)=>{
                 this.setState({result,loading:false})
             })
         }
