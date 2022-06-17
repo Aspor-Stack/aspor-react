@@ -86,7 +86,7 @@ export default class ODataClient {
                     id: request.id,
                     method: request.method,
                     url: request.url.substring(1),
-                    body: request.body ? JSON.stringify(ODataClient.processRequestBody(request)) : undefined
+                    body: request.body ? ODataClient.processRequestBody(request) : undefined
                 }))
             }
             this.getAxiosConfig().then((config)=>{
