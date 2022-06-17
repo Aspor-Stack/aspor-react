@@ -108,7 +108,7 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
         return new ODataQueryable<Entity,UEntity>(this,undefined,expression);
     }
 
-    private create(type : ODataRequestType, count ?: boolean, top?: number) : ODataRequest<any> {
+    private prepareInternal(type : ODataRequestType, count ?: boolean, top?: number) : ODataRequest<any> {
         let url;
         if(this._expression){
             let query : ODataQuerySegments = {count: count??false, top}
@@ -120,18 +120,18 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
     }
 
     getMany(): ODataRequest<ODataCollectionResponse<UEntity>> {
-        return this.create(ODataRequestType.COLLECTION)
+        return this.prepareInternal(ODataRequestType.COLLECTION)
     }
 
     getManyWithCount() : ODataRequest<ODataCollectionResponse<UEntity>>{
-        return this.create(ODataRequestType.COLLECTION,true)
+        return this.prepareInternal(ODataRequestType.COLLECTION,true)
     }
 
     getCount() : ODataRequest<ODataCountResponse>{
-        return this.create(ODataRequestType.COLLECTION_COUNT,true,0)
+        return this.prepareInternal(ODataRequestType.COLLECTION_COUNT,true,0)
     }
 
     getFirst() : ODataRequest<ODataResponse & UEntity>{
-        return this.create(ODataRequestType.COLLECTION_FIRST,true,1)
+        return this.prepareInternal(ODataRequestType.COLLECTION_FIRST,true,1)
     }
 }
