@@ -86,6 +86,9 @@ export default class ODataClient {
                     id: request.id,
                     method: request.method,
                     url: request.url.substring(1),
+                    headers: {
+                        "content-type": "application/json"
+                    },
                     body: request.body ? ODataClient.processRequestBody(request) : undefined
                 }))
             }
