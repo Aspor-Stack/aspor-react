@@ -41,12 +41,13 @@ export default class ODataSet<Entity> extends ODataCollection<Entity> {
     }
 
     collectionFunction<T>(name : string, parameters?: any) : ODataQueryable<T> {
+        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
         let base : ODataBase = {
             formatters: this.formatters,
             client(): ODataClient {
                 return this.client();
             }, url(): string {
-                return this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
+                return url;
             }
         }
         return new ODataQueryable<T>(base);
