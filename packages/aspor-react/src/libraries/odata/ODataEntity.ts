@@ -50,10 +50,11 @@ export default class ODataEntity<Entity> extends ODataSingleQueryable<Entity> {
 
     collectionFunction<T>(name : string, parameters?: any) : ODataQueryable<T> {
         let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
+        let client = this.client();
         let base : ODataBase = {
             formatters: this.formatters,
             client(): ODataClient {
-                return this.client();
+                return client;
             }, url(): string {
                 return url;
             }
