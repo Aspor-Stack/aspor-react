@@ -5,6 +5,9 @@ import ODataRequestMethod from "./request/ODataRequestMethod";
 import {ODataResponse} from "./response/ODataResponse";
 import ODataRequestType from "./request/ODataRequestType";
 import {ODataCollectionResponse} from "./response/ODataCollectionResponse";
+import ODataQueryable from "./query/ODataQueryable";
+import ODataBase from "./ODataBase";
+import ODataClient from "./ODataClient";
 
 export default class ODataSet<Entity> extends ODataCollection<Entity> {
 
@@ -37,8 +40,15 @@ export default class ODataSet<Entity> extends ODataCollection<Entity> {
         return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,ODataRequestType.ENTITY, this.formatters)
     }
 
-    collectionFunction<T>(name : string, parameters?: any) : ODataRequest<ODataCollectionResponse<T>> {
-        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
-        return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,ODataRequestType.COLLECTION, this.formatters)
+    collectionFunction<T>(name : string, parameters?: any) : ODataQueryable<T> {
+        let base : ODataBase = {
+            formatters: this.formatters,
+            client(): ODataClient {
+                return this.client();
+            }, url(): string {
+                return this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
+            }
+        }
+        return new ODataQueryable<T>(base);
     }
 }
