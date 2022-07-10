@@ -1,5 +1,4 @@
-import {DependencyList, useEffect, useState} from "react";
-import ODataSingleQueryable from "../../../libraries/odata/query/ODataSingleQueryable";
+import {DependencyList, useEffect} from "react";
 
 export default function useErrorAction<T>(action: (error: any)=>void, errors?: DependencyList) : void {
     useEffect(()=>{

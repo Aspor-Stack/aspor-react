@@ -21,12 +21,6 @@ export { default as AsporApplication } from './components/system/AsporApplicatio
 
 export { default as ServiceProvider } from './components/system/ServiceProvider';
 
-export { default as ODataCollectionResult } from './components/odata/ODataCollectionResult';
-
-export { default as ODataFirstCollectionResult } from './components/odata/ODataFirstCollectionResult';
-
-export { default as ODataSingleResult } from './components/odata/ODataSingleResult';
-
 /* Hooks */
 
 export { default as useApplication } from './hooks/system/useApplication.hook';
@@ -39,21 +33,17 @@ export { default as useAuthenticationService } from './hooks/system/useAuthentic
 
 export { default as useNotificationService } from './hooks/system/useNotificationService.hook';
 
-export { default as useCollectionResult } from './hooks/odata/useCollectionResult.hook';
+export { default as useODataCollectionResponse } from './hooks/odata/useODataCollectionResponse.hook';
 
-export { default as useFirstCollectionResult } from './hooks/odata/useFirstCollectionResult.hook';
+export { default as useODataEntityResponse } from './hooks/odata/useODataEntityResponse.hook';
 
-export { default as useSingleResult } from './hooks/odata/useSingleResult.hook';
+export { default as useODataPartialCollectionResponse } from './hooks/odata/useODataPartialCollectionResponse.hook';
 
-export { default as usePartialCollectionResult } from './hooks/odata/usePartialCollectionResult.hook';
+export { default as useServiceODataCollectionResponse } from './hooks/odata/service/useServiceODataCollectionResponse.hook';
 
-export { default as useOSCollectionResult } from './hooks/odata/service/useOSCollectionResult.hook';
+export { default as useServiceODataEntityResponse } from './hooks/odata/service/useServiceODataEntityResponse.hook';
 
-export { default as useOSFirstCollectionResult } from './hooks/odata/service/useOSFirstCollectionResult.hook';
-
-export { default as useOSSingleResult } from './hooks/odata/service/useOSSingleResult.hook';
-
-export { default as useOSPartialCollectionResult } from './hooks/odata/service/useOSPartialCollectionResult.hook';
+export { default as useServiceODataPartialCollectionResponse } from './hooks/odata/service/useServiceODataPartialCollectionResponse.hook';
 
 export { default as useErrorAction } from './hooks/utility/error/useErrorAction.hook';
 

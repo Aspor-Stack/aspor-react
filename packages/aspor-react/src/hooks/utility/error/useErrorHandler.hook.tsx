@@ -1,5 +1,4 @@
-import {DependencyList, useEffect, useState} from "react";
-import ODataSingleQueryable from "../../../libraries/odata/query/ODataSingleQueryable";
+import {DependencyList, useEffect} from "react";
 import {useNotificationService} from "../../../index";
 
 export default function useErrorHandler<T>(errors?: DependencyList) : void {
