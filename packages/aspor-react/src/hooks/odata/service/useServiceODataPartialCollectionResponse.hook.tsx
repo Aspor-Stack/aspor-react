@@ -28,10 +28,7 @@ export default function useServiceODataPartialCollectionResponse<S,T>(type:  (ne
             .finally(()=>setLoading(false))
     }
 
-    useEffect(()=>{
-        if(index !== 0) setIndex(0)
-    }, deps);
-
+    useEffect(()=>setIndex(0), deps);
     useEffect(load,[index])
 
     return [rows,count,loading,error,loadNext,reload]
