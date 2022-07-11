@@ -12,11 +12,12 @@ export default function useServiceODataPartialCollectionResponse<S,T>(type:  (ne
 
     const service = useService(type);
 
-    const loadNext = () => setIndex(index => index + stepCount)
-    const reload = () => setIndex(0)
+    const loadNext = () => load(index + stepCount)
+    const reload = () => load(0)
 
-    const load = () => {
+    const load = (index : number) => {
         setLoading(true)
+        setIndex(index)
         let reset = index === 0;
         query(service).skip(index).top(stepCount)
             .getManyWithCount().now()
@@ -28,8 +29,7 @@ export default function useServiceODataPartialCollectionResponse<S,T>(type:  (ne
             .finally(()=>setLoading(false))
     }
 
-    useEffect(()=>setIndex(0), deps);
-    useEffect(load,[index])
+    useEffect(()=> load(0), deps);
 
     return [rows,count,loading,error,loadNext,reload]
 }
