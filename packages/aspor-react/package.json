@@ -17,28 +17,22 @@
     "react-odata"
   ],
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "axios": "^0.24.0",
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {
     "copyfiles": "^2.4.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "^5.0.0",
-    "typescript": "^4.4.4",
-    "web-vitals": "^1.0.1"
+    "typescript": "^4.4.4"
+  },
+  "peerDependencies": {
+    "@types/react": "^18.0.15",
+    "react": "^18.0.15"
   },
   "scripts": {
     "build": "tsc && copyfiles -u 1 src/**/*.* build/"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
