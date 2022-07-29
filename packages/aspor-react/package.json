@@ -21,11 +21,13 @@
   },
   "devDependencies": {
     "copyfiles": "^2.4.1",
-    "typescript": "^4.4.4"
-  },
-  "peerDependencies": {
+    "typescript": "^4.4.4",
     "@types/react": "^18.2.0",
     "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@types/react": "18.x",
+    "react": "18.x"
   },
   "scripts": {
     "build": "tsc && copyfiles -u 1 src/**/*.* build/"
