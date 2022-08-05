@@ -12,9 +12,10 @@ export default function useServiceODataEntityResponse<S,T>(type:  (new ()=>S) | 
     const service = useService(type);
 
     const load = () => {
-        if(query){
+        let query0 = query(service);
+        if(query0){
             setLoading(true)
-            query(service).now()
+            query0.now()
                 .then((result)=> {
                     setEntity(result)
                     setError(undefined)

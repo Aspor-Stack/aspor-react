@@ -16,11 +16,12 @@ export default function useServiceODataPartialCollectionResponse<S,T>(type:  (ne
     const reload = () => load(0)
 
     const load = (index : number) => {
-        if(query){
+        let query0 = query(service);
+        if(query0){
             setLoading(true)
             setIndex(index)
             let reset = index === 0;
-            query(service).skip(index).top(stepCount)
+            query0.skip(index).top(stepCount)
                 .getManyWithCount().now()
                 .then((result)=> {
                     setRows(rows => reset ? result.rows : [...rows,...result.rows])
