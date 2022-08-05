@@ -4,7 +4,7 @@ import ODataCollectionResponse from "../../../libraries/odata/response/ODataColl
 import useService from "../../system/useService.hook";
 import Application from "../../../system/Application";
 
-export default function useServiceODataCollectionResponse<S,T>(type: (new ()=>S) | (new (app : Application)=>S), query: (service : S)=>ODataRequest<ODataCollectionResponse<T>>, deps?: DependencyList) : [T[],number,boolean,any,()=>void] {
+export default function useServiceODataCollectionResponse<S,T>(type: (new ()=>S) | (new (app : Application)=>S), query: (service : S)=>ODataRequest<ODataCollectionResponse<T>>|undefined, deps?: DependencyList) : [T[],number,boolean,any,()=>void] {
     const [loading, setLoading] = useState<boolean>(true)
     const [rows, setRows] = useState<T[]>([])
     const [count, setCount] = useState<number>(0)
@@ -13,15 +13,17 @@ export default function useServiceODataCollectionResponse<S,T>(type: (new ()=>S)
     const service = useService(type);
 
     const load = () => {
-        setLoading(true)
-        query(service).now()
-            .then((result)=> {
-                setRows(result.rows)
-                setCount(result.count)
-                setError(undefined)
-            })
-            .catch((error)=>setError(error))
-            .finally(()=>setLoading(false))
+        if(query){
+            setLoading(true)
+            query(service).now()
+                .then((result)=> {
+                    setRows(result.rows)
+                    setCount(result.count)
+                    setError(undefined)
+                })
+                .catch((error)=>setError(error))
+                .finally(()=>setLoading(false))
+        }
     }
 
     useEffect(load,deps);
