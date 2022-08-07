@@ -1,7 +1,7 @@
 import {DependencyList, useEffect, useState} from "react";
 import ODataQueryable from "../../libraries/odata/query/ODataQueryable";
 
-export default function useODataPartialCollectionResponse<T>(query: ODataQueryable<T>|undefined, stepCount: number, deps?: DependencyList) : [T[],number,boolean,any,()=>void,()=>void] {
+export default function useODataPartialCollectionResponse<T>(query: ODataQueryable<T>|undefined, stepCount: number, deps?: DependencyList) : [T[],number,boolean,any,()=>void,()=>void, (rows: T[])=>void] {
     const [loading, setLoading] = useState<boolean>(true)
     const [index, setIndex] = useState<number>(0)
     const [rows, setRows] = useState<T[]>([])
@@ -32,5 +32,5 @@ export default function useODataPartialCollectionResponse<T>(query: ODataQueryab
 
     useEffect(load,[index])
 
-    return [rows,count,loading,error,loadNext,reload]
+    return [rows,count,loading,error,loadNext,reload, setRows]
 }

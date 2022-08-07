@@ -3,7 +3,7 @@ import ODataQueryable from "../../../libraries/odata/query/ODataQueryable";
 import Application from "../../../system/Application";
 import useService from "../../system/useService.hook";
 
-export default function useServiceODataPartialCollectionResponse<S,T>(type:  (new ()=>S) | (new (app : Application)=>S), query: (service : S)=>ODataQueryable<T>|undefined, stepCount: number, deps?: DependencyList) : [T[],number,boolean,any,()=>void,()=>void] {
+export default function useServiceODataPartialCollectionResponse<S,T>(type:  (new ()=>S) | (new (app : Application)=>S), query: (service : S)=>ODataQueryable<T>|undefined, stepCount: number, deps?: DependencyList) : [T[],number,boolean,any,()=>void,()=>void, (rows: T[])=>void] {
     const [loading, setLoading] = useState<boolean>(true)
     const [index, setIndex] = useState<number>(0)
     const [rows, setRows] = useState<T[]>([])
@@ -34,5 +34,5 @@ export default function useServiceODataPartialCollectionResponse<S,T>(type:  (ne
 
     useEffect(()=> load(0), deps);
 
-    return [rows,count,loading,error,loadNext,reload]
+    return [rows,count,loading,error,loadNext,reload, setRows]
 }
