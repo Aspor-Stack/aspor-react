@@ -122,7 +122,7 @@ class QueryUtilityImpl {
     }
 
     compileQueryParameterValue(value){
-        if(value) {
+        if(typeof value !== typeof undefined) {
             if(Array.isArray(value)){
                 let result = "["
                 let first = true;
