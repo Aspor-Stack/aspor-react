@@ -12,31 +12,38 @@ export default function useServiceODataPartialCollectionResponse<S,T>(type:  (ne
 
     const service = useService(type);
 
-    const loadNext = () => load(index + stepCount)
-    const reload = () => load(0)
+    const loadNext = (): Promise<T[]> | undefined => load(index + stepCount)
+    
+    const reload = (): Promise<T[]> | undefined => load(0)
     const setData = (rows: T[], totalCount: number) => {
         setRows(rows)
         setCount(totalCount)
     }
 
-    const load = (index : number) => {
+    const load = (index : number): Promise<T[]> | undefined => {
         let query0 = query(service);
         if(query0){
-            setLoading(true)
-            setIndex(index)
-            let reset = index === 0;
-            query0.skip(index).top(stepCount)
-                .getManyWithCount().now()
-                .then((result)=> {
-                    setRows(rows => reset ? result.rows : [...rows,...result.rows])
-                    setCount(result.count)
-                })
-                .catch((error)=>setError(error))
-                .finally(()=>setLoading(false))
+            return new Promise((resolve, reject) => {
+                setLoading(true)
+                setIndex(index)
+                let reset = index === 0;
+                query0.skip(index).top(stepCount)
+                    .getManyWithCount().now()
+                    .then((result)=> {
+                        setRows(rows => reset ? result.rows : [...rows,...result.rows])
+                        setCount(result.count)
+                        resolve(result.rows)
+                    })
+                    .catch((error)=>setError(error))
+                    .finally(()=>setLoading(false))
+            })
         }
+        return undefined
     }
 
-    useEffect(()=> load(0), deps);
+    useEffect(()=> {
+        load(0)
+    }, deps);
 
     return [rows,count,loading,error,loadNext,reload, setData]
 }
