@@ -8,6 +8,7 @@ import ODataQueryable from "../ODataQueryable";
 import {ODataQueryUtility} from "../ODataQueryUtility";
 import ODataQuerySegments from "../ODataQuerySegments";
 import {Guid} from "../../Guid";
+import {NonLiteralText} from "../../NonLiteralText";
 
 export class ODataExpressionVisitorImpl {
 
@@ -112,8 +113,13 @@ export class ODataExpressionVisitorImpl {
             else if (operand instanceof Array) {
                 translation.push([operand.map(i => this.deriveLiteral(new Literal(i))).join(',')]);
             }
-            else //assume this is a literal without the type specified
+            else if (operand instanceof NonLiteralText || operand instanceof Guid) {
+                translation.push([operand.toString()]);
+            }
+            else {
+                //assume this is a literal without the type specified
                 translation.push([this.deriveLiteral(new Literal(operand))]);
+            }
         }
 
         if (translation.length === 1) {
@@ -194,7 +200,6 @@ export class ODataExpressionVisitorImpl {
 
         if (value === null) return "null";
         if (value instanceof Date) return value.toISOString();
-        if (value instanceof Guid) return value.toString();
 
         switch (typeof value) {
             case "string":

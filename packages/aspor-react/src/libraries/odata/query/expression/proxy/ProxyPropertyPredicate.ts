@@ -6,6 +6,7 @@ import { FilterAccessoryFunctions } from "../FilterAccessoryFunctions";
 import {BooleanPredicateBuilder} from "../BooleanPredicateBuilder";
 import { Expression } from "../Expression";
 import {ODataQueryUtility} from "../../ODataQueryUtility";
+import {NonLiteralText} from "../../../NonLiteralText";
 
 export class ProxyPropertyPredicate<T> implements
     EqualityProxyFieldPredicate<T>,
@@ -79,7 +80,7 @@ export class ProxyPropertyPredicate<T> implements
             operand = this.getFieldReference(value as unknown as PropertyProxy<T>)
         }
         // eslint-disable-next-line
-        const expression = new Expression(operator, [this.fieldReference, String(proxy[lambdaVariable]), operand]);
+        const expression = new Expression(operator, [this.fieldReference, NonLiteralText.new(proxy[lambdaVariable]), operand]);
         return new BooleanPredicateBuilder<P>(expression);
     }
 
