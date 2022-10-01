@@ -114,7 +114,8 @@ export default class ODataQueryable<Entity, UEntity = Entity> extends AbstractOD
             let query : ODataQuerySegments = {count: count??false, top}
             ODataExpressionVisitor.visit(query,this._expression);
             url = this.url()+ODataQueryUtility.compileQuery(query);
-        }else if(count && top) url = this.url()+"?$count=true&top";
+        }else if(count && top !== undefined) url = this.url()+"?$count=true&top="+top;
+        else if(count) url = this.url()+"?$count=true"
         else url = this.url();
         return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,type,this.formatters)
     }
