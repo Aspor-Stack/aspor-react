@@ -4,7 +4,6 @@ import ODataRequest, {BinaryBody} from "./request/ODataRequest";
 import ODataRequestMethod from "./request/ODataRequestMethod";
 import {ODataResponse} from "./response/ODataResponse";
 import ODataRequestType from "./request/ODataRequestType";
-import {ODataCollectionResponse} from "./response/ODataCollectionResponse";
 import ODataQueryable from "./query/ODataQueryable";
 import ODataBase from "./ODataBase";
 import ODataClient from "./ODataClient";

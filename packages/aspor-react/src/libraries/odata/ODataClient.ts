@@ -64,6 +64,11 @@ export default class ODataClient {
             this.getAxiosConfig(formRequest).then((config)=>{
                 let url = this._base+request.url;
 
+                if(request.headers != null) {
+                    if(config.headers == null) config.headers = request.headers;
+                    else config.headers = {...config.headers,...request.headers}
+                }
+
                 let promise : Promise<any>;
                 if(request.method === ODataRequestMethod.GET) promise = axios.get(url,config);
                 else if(request.method === ODataRequestMethod.DELETE) promise = axios.delete(url,config);

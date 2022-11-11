@@ -13,6 +13,7 @@ export default class ODataRequest<T extends ODataResponse> {
     public readonly body?: any;
 
     private _id?: string
+    private _headers?: any
     private _successHandler?: (data : any)=>void
     private _errorHandler?: (data : any)=>void
 
@@ -29,6 +30,10 @@ export default class ODataRequest<T extends ODataResponse> {
         return this._id;
     }
 
+    get headers(){
+        return this._headers;
+    }
+
     get successHandler(){
         return this._successHandler;
     }
@@ -42,6 +47,12 @@ export default class ODataRequest<T extends ODataResponse> {
         this._id = id;
         this._successHandler = successHandler;
         this._errorHandler = errorHandler;
+    }
+
+    withHeader(key: string, value: string){
+        if(this._headers == null) this._headers = {}
+        this._headers[key] = value;
+        return this;
     }
 
     now(){
