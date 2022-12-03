@@ -43,23 +43,14 @@ export default class ODataEntity<Entity> extends ODataSingleQueryable<Entity> {
         return this.request(this.url()+"/"+name,ODataRequestMethod.POST,ODataRequestType.ENTITY,new BinaryBody(files,formName))
     }
 
-    function<T>(name : string, parameters?: any) : ODataRequest<ODataResponse & T> {
-        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
-        return this.request(url,ODataRequestMethod.GET,ODataRequestType.ENTITY)
+    function<T>(name : string, parameters?: any) : ODataEntity<T> {
+        let url = name+ODataQueryUtility.compileQueryParameters(parameters);
+        return new ODataEntity<T>(this,url);
     }
 
     collectionFunction<T>(name : string, parameters?: any) : ODataQueryable<T> {
-        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
-        let client = this.client();
-        let base : ODataBase = {
-            formatters: this.formatters,
-            client(): ODataClient {
-                return client;
-            }, url(): string {
-                return url;
-            }
-        }
-        return new ODataQueryable<T>(base);
+        let url = name+ODataQueryUtility.compileQueryParameters(parameters);
+        return new ODataQueryable<T>(this, url);
     }
 
 }

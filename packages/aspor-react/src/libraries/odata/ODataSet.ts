@@ -5,8 +5,7 @@ import ODataRequestMethod from "./request/ODataRequestMethod";
 import {ODataResponse} from "./response/ODataResponse";
 import ODataRequestType from "./request/ODataRequestType";
 import ODataQueryable from "./query/ODataQueryable";
-import ODataBase from "./ODataBase";
-import ODataClient from "./ODataClient";
+import ODataEntity from "./ODataEntity";
 
 export default class ODataSet<Entity> extends ODataCollection<Entity> {
 
@@ -34,22 +33,13 @@ export default class ODataSet<Entity> extends ODataCollection<Entity> {
         return new ODataRequest<any>(this.client(),this.url()+"/"+name,ODataRequestMethod.POST,ODataRequestType.ENTITY, this.formatters,new BinaryBody(files,formName))
     }
 
-    function<T>(name : string, parameters?: any) : ODataRequest<ODataResponse & T>{
-        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
-        return new ODataRequest<any>(this.client(),url,ODataRequestMethod.GET,ODataRequestType.ENTITY, this.formatters)
+    function<T>(name : string, parameters?: any) : ODataEntity<T>{
+        let url = name+ODataQueryUtility.compileQueryParameters(parameters)
+        return new ODataEntity<T>(this,url);
     }
 
     collectionFunction<T>(name : string, parameters?: any) : ODataQueryable<T> {
-        let url = this.url()+"/"+name+ODataQueryUtility.compileQueryParameters(parameters);
-        let client = this.client();
-        let base : ODataBase = {
-            formatters: this.formatters,
-            client(): ODataClient {
-                return client;
-            }, url(): string {
-                return url;
-            }
-        }
-        return new ODataQueryable<T>(base);
+        let url = name+ODataQueryUtility.compileQueryParameters(parameters);
+        return new ODataQueryable<T>(this, url);
     }
 }
