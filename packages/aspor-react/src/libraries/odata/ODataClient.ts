@@ -6,6 +6,7 @@ import {ODataResponse} from "./response/ODataResponse";
 import ODataRequestMethod from "./request/ODataRequestMethod";
 import ODataRequestType from "./request/ODataRequestType";
 import {ODataErrorResponse} from "./response/ODataErrorResponse";
+import JSONbig from 'json-bigint';
 
 export interface AuthorizationHandler {
 
@@ -52,6 +53,12 @@ export default class ODataClient {
                 headers: {
                     "Authorization": await this._authorizationHandler.handleAuthorization(),
                     "Content-Type": formRequest ? "multipart/form-data" : "application/json"
+                },
+                transformRequest: (req) => {
+                    return JSONbig.stringify(req)
+                },
+                transformResponse: (res) => {
+                    return JSONbig.parse(res)
                 }
             }
         }

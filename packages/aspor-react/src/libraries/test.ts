@@ -49,3 +49,4 @@ batch.addWithPromise(testService.projects().getMany()).then(()=>{
 let id = batch.add(testService.projects("test").patch(({name: "", age: 1})))
 
 batch.commit();
+
