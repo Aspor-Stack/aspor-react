@@ -178,8 +178,11 @@ export default class ODataClient {
                     ...this.formatIncoming(body,request.formatters)
                 };
             }
+        }else{
+            return {
+                context: "empty"
+            };
         }
-        return new Error("Invalid response content");
     }
 
     private static formatIncoming(row : any, formatters? : any) : any{
