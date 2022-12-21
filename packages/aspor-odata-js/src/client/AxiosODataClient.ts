@@ -36,10 +36,10 @@ export default class AxiosODataClient implements ODataClient {
                     "Content-Type": formRequest ? "multipart/form-data" : "application/json"
                 },
                 transformRequest: (req) => {
-                    return JSONbig.stringify(req)
+                    return req ? JSONbig.stringify(req) : undefined
                 },
                 transformResponse: (res) => {
-                    return JSONbig.parse(res)
+                    return res && res.length > 0 ? JSONbig.parse(res) : undefined
                 }
             }
         }
@@ -65,10 +65,7 @@ export default class AxiosODataClient implements ODataClient {
                 else if(request.method === ODataRequestMethod.PATCH) promise = axios.patch(url, ODataClientUtil.processRequestBody(request),config);
 
                 promise
-                    .then((response)=>{
-                        if(response.status <= 201) resolve(ODataClientUtil.processResponseBody(request,response.data))
-                        else resolve({} as T)
-                    })
+                    .then((response)=>resolve(ODataClientUtil.processResponseBody(request,response.data)))
                     .catch(reject)
 
             }).catch(reject)
