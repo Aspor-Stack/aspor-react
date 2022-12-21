@@ -1,6 +1,6 @@
 {
   "name": "@aspor/aspor-react-system",
-  "version": "1.0.45",
+  "version": "1.0.46",
   "private": false,
   "author": "Davide Wietlisbach",
   "license": "Apache-2.0",
@@ -16,9 +16,7 @@
     "react",
     "react-odata"
   ],
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "@aspor/aspor-odata-js": "file:../aspor-odata-js/build",
     "@aspor/aspor-odata-js-react": "file:../aspor-odata-js-react/build",
