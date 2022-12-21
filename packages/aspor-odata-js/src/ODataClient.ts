@@ -7,7 +7,7 @@ import ODataRequestType from "./request/ODataRequestType";
 import {ODataErrorResponse} from "./response/ODataErrorResponse";
 import JSONbig from 'json-bigint';
 
-export interface AuthorizationHandler {
+export interface IODataAuthorizationHandler {
 
     handleODataClientAuthorization() : Promise<string|undefined>
 
@@ -16,9 +16,9 @@ export interface AuthorizationHandler {
 export default class ODataClient {
 
     private readonly _base : string
-    private readonly _authorizationHandler? : AuthorizationHandler
+    private readonly _authorizationHandler? : IODataAuthorizationHandler
 
-    constructor(base : string, authorizationHandler? : AuthorizationHandler) {
+    constructor(base : string, authorizationHandler? : IODataAuthorizationHandler) {
         this._base = base;
         if(authorizationHandler) this._authorizationHandler = authorizationHandler;
     }

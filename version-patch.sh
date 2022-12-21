@@ -8,5 +8,3 @@ npm version patch
 
 cd ../aspor-react-system
 npm version patch
-
-cd ../../

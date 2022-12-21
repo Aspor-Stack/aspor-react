@@ -11,5 +11,3 @@ npm publish --access public
 
 cd ../../aspor-react-system/build
 npm publish --access public
-
-cd ../../../

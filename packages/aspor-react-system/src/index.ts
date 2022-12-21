@@ -27,7 +27,7 @@ export { default as AsporUser } from './service/authentication/AsporUser';
 
 export { default as LoginBehavior } from './service/authentication/LoginBehavior';
 
-export { default as AuthenticationService, IAuthenticationService } from './service/authentication/authentication.service';
+export { default as AuthenticationService, IAuthenticationService, AsODataHandler } from './service/authentication/authentication.service';
 
 export { default as NotificationService, INotificationService } from './service/notification.service';
 

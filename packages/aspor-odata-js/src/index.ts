@@ -62,7 +62,7 @@ export { default as ODataBase } from './ODataBase';
 
 export { default as ODataBatch } from './ODataBatch';
 
-export { default as ODataClient } from './ODataClient';
+export { default as ODataClient, IODataAuthorizationHandler } from './ODataClient';
 
 export { default as ODataCollection } from './ODataCollection';
 
