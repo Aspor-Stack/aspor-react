@@ -26,8 +26,8 @@
     "typescript": "^4.4.4"
   },
   "peerDependencies": {
-    "@aspor/aspor-odata-js": "0.x",
-    "@aspor/aspor-odata-js-react": "0.x",
+    "@aspor/aspor-odata-js": "1.x",
+    "@aspor/aspor-odata-js-react": "1.x",
     "@types/react": "18.x",
     "react": "18.x"
   },
