@@ -14,7 +14,7 @@ export default interface ODataClient {
 
     get authorizationHandler() : IODataAuthorizationHandler
 
-    execute<T extends ODataResponse>(request : ODataRequest<T>) : Promise<T>
+    execute<T extends ODataResponse>(request : ODataRequest<T>) : Promise<T|null>
 
     executeBatch(batch : ODataBatch) : Promise<ODataResponse[]>
 

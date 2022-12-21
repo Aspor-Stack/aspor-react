@@ -59,9 +59,13 @@ export default class FetchODataClient implements ODataClient {
                     method: ODataRequestMethod.DELETE,
                     body: body
                 }).then((response)=> {
-                    response.json()
-                        .then((data)=>resolve(ODataClientUtil.processResponseBody(request, data)))
-                        .catch(reject)
+                    if(response.status <= 201){
+                        response.json()
+                            .then((data)=>resolve(ODataClientUtil.processResponseBody(request, data)))
+                            .catch(reject)
+                    }else{
+                        resolve({} as T);
+                    }
                 }).catch(reject)
 
             }).catch(reject)

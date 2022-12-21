@@ -65,7 +65,10 @@ export default class AxiosODataClient implements ODataClient {
                 else if(request.method === ODataRequestMethod.PATCH) promise = axios.patch(url, ODataClientUtil.processRequestBody(request),config);
 
                 promise
-                    .then((response)=>resolve(ODataClientUtil.processResponseBody(request,response.data)))
+                    .then((response)=>{
+                        if(response.status <= 201) resolve(ODataClientUtil.processResponseBody(request,response.data))
+                        else resolve({} as T)
+                    })
                     .catch(reject)
 
             }).catch(reject)
