@@ -1,7 +1,7 @@
 import ODataRequestMethod from "./ODataRequestMethod";
 import {ODataResponse} from "../response/ODataResponse";
 import ODataRequestType from "./ODataRequestType";
-import ODataClient from "../ODataClient";
+import ODataClient from "../client/ODataClient";
 
 export default class ODataRequest<T extends ODataResponse> {
 

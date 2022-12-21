@@ -1,5 +1,5 @@
 import ODataBase from "./ODataBase";
-import ODataClient from "./ODataClient";
+import ODataClient from "./client/ODataClient";
 import ODataBatch from "./ODataBatch";
 
 export default class ODataService implements ODataBase{
