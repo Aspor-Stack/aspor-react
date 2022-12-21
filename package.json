@@ -4,8 +4,16 @@
   "private": true,
   "dependencies": {},
   "scripts": {
-    "start": "cd packages/aspor-react-test && npm run-script start",
-    "build": "cd packages/aspor-react && npm run-script build"
+    "setGitBash32": "npm config set script-shell \"C:\\\\Program Files (x86)\\\\git\\\\bin\\\\bash.exe\"  ",
+    "setGitBash64": "npm config set script-shell \"C:\\\\Program Files\\\\git\\\\bin\\\\bash.exe\"",
+    "setup": "bash setup.sh",
+    "clean": "bash clean.sh",
+    "build": "bash build.sh",
+    "publish": "bash publish.sh",
+    "version-patch": "bash version-patch.sh",
+    "start": "bash start.sh",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "eslintConfig": {
     "extends": [

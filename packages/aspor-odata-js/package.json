@@ -1,0 +1,54 @@
+{
+  "name": "@aspor/aspor-odata-js",
+  "version": "1.0.45",
+  "private": false,
+  "author": "Davide Wietlisbach",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aspor-Stack/aspor-react"
+  },
+  "bugs": {
+    "url": "https://github.com/Aspor-Stack/aspor-react/issues"
+  },
+  "homepage": "https://aspor-stack.github.io/aspor-docs/docs/introduction/",
+  "keywords": [
+    "react",
+    "react-odata"
+  ],
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "@types/json-bigint": "^1.0.1",
+    "json-bigint": "^1.0.0",
+    "copyfiles": "^2.4.1",
+    "typescript": "^4.4.4",
+    "axios": "^0.24.0"
+  },
+  "peerDependencies": {
+    "axios": "0.x",
+    "@types/json-bigint": "^1.0.1",
+    "json-bigint": "^1.0.0"
+  },
+  "scripts": {
+    "build": "tsc && copyfiles -u 1 src/**/*.* build/"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
