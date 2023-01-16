@@ -7,18 +7,19 @@ import ODataClientUtil from "./ODataClientUtil";
 
 export default class FetchODataClient implements ODataClient {
 
-    private readonly _base : string
+    private readonly _base: string | (() => string)
     private readonly _authorizationHandler? : IODataAuthorizationHandler
     private readonly _fetchConfigBuilder? : (formRequest?: boolean)=>Promise<RequestInit>
 
-    constructor(base : string, authorizationHandler? : IODataAuthorizationHandler, fetchConfigBuilder? : (formRequest?: boolean)=>Promise<RequestInit>) {
+    constructor(base: string | (() => string), authorizationHandler? : IODataAuthorizationHandler, fetchConfigBuilder? : (formRequest?: boolean)=>Promise<RequestInit>) {
         this._base = base;
         this._authorizationHandler = authorizationHandler;
         this._fetchConfigBuilder = fetchConfigBuilder;
     }
 
     get base(): string {
-        return this._base;
+        if(typeof this._base === 'string') return this._base;
+        else return this._base()
     }
 
     get authorizationHandler(){
@@ -42,7 +43,7 @@ export default class FetchODataClient implements ODataClient {
         return new Promise<T>((resolve,reject)=>{
             let formRequest = request.body instanceof FormData || request.body instanceof BinaryBody;
             this.getFetchConfig(formRequest).then((config)=>{
-                let url = this._base+request.url;
+                let url = this.base+request.url;
 
                 if(request.headers != null) {
                     if(config.headers == null) config.headers = request.headers;
@@ -86,7 +87,7 @@ export default class FetchODataClient implements ODataClient {
                 }))
             }
             this.getFetchConfig().then((config)=>{
-                fetch(this._base+"/$batch",{...config, method: "POST", body: body})
+                fetch(this.base+"/$batch",{...config, method: "POST", body: body})
                     .then((response)=>{
                         response.json()
                             .then((data)=>resolve(ODataClientUtil.processBatchResponse(batch,data)))
