@@ -3,22 +3,30 @@ import {ODataFieldFormatter} from "./ODataFieldFormatter";
 class DateODataFieldFormatter implements ODataFieldFormatter{
 
     formatIncoming(input: any): any {
-        if(typeof input === "string"){
-            return new Date(Date.parse(input))
+        if(input !== undefined){
+            if(typeof input === "string"){
+                return new Date(Date.parse(input))
+            }else{
+                throw new Error("Received invalid input type for json formatter")
+            }
         }else{
-            throw new Error("Received invalid input type for json formatter")
+            return input;
         }
     }
 
     formatOutgoing(input: any): any {
-        if(input instanceof Date){
-            return input.toISOString();
-        }else if(typeof input === "string"){
-            return new Date(Date.parse(input)).toISOString()
-        }else if(typeof input === "number"){
-            return new Date(input).toISOString()
+        if(input !== undefined){
+            if(input instanceof Date){
+                return input.toISOString();
+            }else if(typeof input === "string"){
+                return new Date(Date.parse(input)).toISOString()
+            }else if(typeof input === "number"){
+                return new Date(input).toISOString()
+            }
+            throw new Error("Received invalid input type for json formatter")
+        }else{
+            return input
         }
-        throw new Error("Received invalid input type for json formatter")
     }
 
 }
