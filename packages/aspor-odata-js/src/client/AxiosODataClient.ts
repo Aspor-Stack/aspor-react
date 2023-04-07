@@ -9,18 +9,19 @@ import ODataClientUtil from "./ODataClientUtil";
 
 export default class AxiosODataClient implements ODataClient {
 
-    private readonly _base : string
+    private readonly _base: string | (() => string)
     private readonly _authorizationHandler? : IODataAuthorizationHandler
     private readonly _axiosConfigBuilder? : (formRequest?: boolean)=>Promise<AxiosRequestConfig>
 
-    constructor(base : string, authorizationHandler? : IODataAuthorizationHandler, axiosConfigBuilder? : (formRequest?: boolean)=>Promise<AxiosRequestConfig>) {
+    constructor(base: string | (() => string), authorizationHandler? : IODataAuthorizationHandler, axiosConfigBuilder? : (formRequest?: boolean)=>Promise<AxiosRequestConfig>) {
         this._base = base;
         this._authorizationHandler = authorizationHandler;
         this._axiosConfigBuilder = axiosConfigBuilder;
     }
 
     get base(): string {
-        return this._base;
+        if(typeof this._base === 'string') return this._base;
+        else return this._base()
     }
 
     get authorizationHandler(){
@@ -50,7 +51,7 @@ export default class AxiosODataClient implements ODataClient {
         return new Promise<T>((resolve,reject)=>{
             let formRequest = request.body instanceof FormData || request.body instanceof BinaryBody;
             this.getAxiosConfig(formRequest).then((config)=>{
-                let url = this._base+request.url;
+                let url = this.base+request.url;
 
                 if(request.headers != null) {
                     if(config.headers == null) config.headers = request.headers;
@@ -86,7 +87,7 @@ export default class AxiosODataClient implements ODataClient {
                 }))
             }
             this.getAxiosConfig().then((config)=>{
-                axios.post(this._base+"/$batch",body,config)
+                axios.post(this.base+"/$batch",body,config)
                     .then((response)=>resolve(ODataClientUtil.processBatchResponse(batch,response.data)))
                     .catch(reject)
             }).catch(reject)
