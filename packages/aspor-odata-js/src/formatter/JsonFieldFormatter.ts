@@ -4,15 +4,19 @@ class JsonODataFieldFormatter implements ODataFieldFormatter{
 
 
     formatIncoming(input: any): any {
-        if(typeof input === "string"){
-            return JSON.parse(input)
+        if(input){
+            if(typeof input === "string"){
+                return JSON.parse(input)
+            }else{
+                throw new Error("Received invalid input type for json formatter")
+            }
         }else{
-            throw new Error("Received invalid input type for json formatter")
+            return input;
         }
     }
 
     formatOutgoing(input: any): any {
-        return JSON.stringify(input);
+        return input ? JSON.stringify(input) : input;
     }
 
 }
