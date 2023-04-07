@@ -3,7 +3,7 @@ import {ODataFieldFormatter} from "./ODataFieldFormatter";
 class DateODataFieldFormatter implements ODataFieldFormatter{
 
     formatIncoming(input: any): any {
-        if(input !== undefined){
+        if(input !== null){
             if(typeof input === "string"){
                 return new Date(Date.parse(input))
             }else{
@@ -15,7 +15,7 @@ class DateODataFieldFormatter implements ODataFieldFormatter{
     }
 
     formatOutgoing(input: any): any {
-        if(input !== undefined){
+        if(input !== null){
             if(input instanceof Date){
                 return input.toISOString();
             }else if(typeof input === "string"){

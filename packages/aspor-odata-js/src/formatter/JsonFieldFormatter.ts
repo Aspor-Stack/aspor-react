@@ -4,7 +4,7 @@ class JsonODataFieldFormatter implements ODataFieldFormatter{
 
 
     formatIncoming(input: any): any {
-        if(input){
+        if(input !== null){
             if(typeof input === "string"){
                 return JSON.parse(input)
             }else{
@@ -16,7 +16,7 @@ class JsonODataFieldFormatter implements ODataFieldFormatter{
     }
 
     formatOutgoing(input: any): any {
-        return input ? JSON.stringify(input) : input;
+        return input !== null ? JSON.stringify(input) : input;
     }
 
 }
