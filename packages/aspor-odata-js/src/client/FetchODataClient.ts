@@ -57,7 +57,7 @@ export default class FetchODataClient implements ODataClient {
 
                 fetch(url, {
                     ...config,
-                    method: ODataRequestMethod.DELETE,
+                    method: request.method,
                     body: body
                 }).then((response)=> {
                     if(response.status <= 201){

@@ -37,6 +37,7 @@ export default class AxiosODataClient implements ODataClient {
                     "Content-Type": formRequest ? "multipart/form-data" : "application/json"
                 },
                 transformRequest: (req) => {
+                    if(req instanceof FormData) return req;
                     return req ? JSONbig.stringify(req) : undefined
                 },
                 transformResponse: (res) => {
