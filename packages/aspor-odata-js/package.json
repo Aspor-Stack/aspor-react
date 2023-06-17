@@ -22,10 +22,10 @@
     "json-bigint": "^1.0.0",
     "copyfiles": "^2.4.1",
     "typescript": "^4.4.4",
-    "axios": "^0.24.0"
+    "axios": "^1.4.0"
   },
   "peerDependencies": {
-    "axios": "0.x",
+    "axios": "1.x",
     "@types/json-bigint": "^1.0.1",
     "json-bigint": "^1.0.0"
   },
